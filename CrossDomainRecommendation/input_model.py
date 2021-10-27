@@ -16,7 +16,7 @@ with open('genius_api_token.txt') as f:
     GENIUS_API_TOKEN = f.read()
 f.close()
 
-print(GENIUS_API_TOKEN)
+# print(GENIUS_API_TOKEN)
 
 class TimeoutException(Exception): pass
 
@@ -47,7 +47,10 @@ def request_artist_song_url(artist_name, song_name):
     base_url = 'https://genius.com'
 
     make_url = base_url + '/' + artist + '-' + song + '-' + 'lyrics'
-    return make_url
+    print(make_url)
+    tup = (artist_name, make_url, song_name)
+
+    return tup
 
 
 # Get artist object from Genius API
