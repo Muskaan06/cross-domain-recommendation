@@ -15,6 +15,7 @@ nltk.download('wordnet')
 from nltk.stem import WordNetLemmatizer
 from nltk.corpus import stopwords
 
+#scraping the lyrics
 def scrape_song_lyrics(url):
     lis=''
     page = requests.get(url)
@@ -51,3 +52,4 @@ def clean_song(song_lyric):
     result=remove_punctuation(text_lower)
     lyrics=[remove_stopwords(result)]
     return lyrics
+
