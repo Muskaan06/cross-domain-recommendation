@@ -1,6 +1,4 @@
-import pandas as pd
-import numpy as np
-import utils
+import sql
 import input_model
 import utils
 
@@ -37,8 +35,10 @@ file_name = '..//dataset//song_database.csv'
 userId = input("Enter your user Id: ")
 songName = input("Your song name: ")
 artistName = input("Artist of the given song: ")
+rating = input("Enter rating 1-10: ")
+
 input_model.request_artist_song_url(artistName,songName)
 utils.database_update_user_input(artistName,songName,file_name)
 
-
-
+sql.insert(userId,songName,rating)
+sql.display()
