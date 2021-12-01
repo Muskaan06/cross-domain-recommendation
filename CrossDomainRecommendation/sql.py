@@ -8,7 +8,7 @@ crsr = connection.cursor()
 # are no errors
 print("Connected to the database")
 
-# SQL command to create a table in the database
+#SQL command to create a table in the database
 # sql_command = """CREATE TABLE song_user_rating (
 # user_id VARCHAR(20) PRIMARY KEY,
 # song_id VARCHAR(20),
@@ -20,6 +20,7 @@ print("Connected to the database")
 def insert(user_id,song_id,rating):
    sql_command = """INSERT INTO song_user_rating VALUES (?,?,?);"""
    crsr.execute(sql_command,(user_id,song_id,rating))
+   connection.commit()
 
 def display():
    cursor = crsr.execute("SELECT * FROM song_user_rating")
@@ -27,6 +28,5 @@ def display():
       print(row)
 # To save the changes in the files. Never skip this.
 # If we skip this, nothing will be saved in the database.
-connection.commit()
 
 
