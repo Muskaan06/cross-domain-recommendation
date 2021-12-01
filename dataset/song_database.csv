@@ -1,25 +1,27 @@
 ,Artist,Lyrics_url,Song
-0,taylor swift,https://genius.com/Taylor-swift-all-too-well-lyrics,all too well
 0,coldplay,https://genius.com/Coldplay-yellow-lyrics,yellow
-1,coldplay,https://genius.com/Coldplay-paradise-lyrics,paradise
-2,coldplay,https://genius.com/Coldplay-the-scientist-lyrics,the scientist
-3,lauv,https://genius.com/Lauv-i-like-me-better-lyrics,i like me better
-4,khalid,https://genius.com/Khalid-better-lyrics,better
-5,lisa,https://genius.com/Lisa-money-lyrics,money
-6,ed sheeran,https://genius.com/Ed-sheeran-perfect-lyrics,perfect
-7,maroon 5,https://genius.com/Maroon-5-animals-lyrics,animals
-8,maroon 5,https://genius.com/Maroon-5-one-more-night-lyrics,one more night
-9,sean paul,https://genius.com/Sean-paul-temperature-lyrics,temperature
-10,drake,https://genius.com/Drake-headlines-lyrics,Headlines
-11,junior boys,https://genius.com/Junior-boys-banana-ripple-lyrics,Banana Ripple
-12,junior boys,https://genius.com/Junior-boys-caught-in-a-wave-lyrics,Caught In A Wave
-13,junior boys,https://genius.com/Junior-boys-first-time-lyrics,First Time
-14,beach house,https://genius.com/Beach-house-days-of-candy-lyrics,Days of Candy
-15,beach house,https://genius.com/Beach-house-wild-lyrics,Wild
-16,beach house,https://genius.com/Beach-house-10-37-lyrics,10:37
-17,childish gambino,https://genius.com/Childish-gambino-sober-lyrics,Sober
-18,childish gambino,https://genius.com/Childish-gambino-me-and-your-mama-lyrics,Me and Your Mama
-19,childish gambino,https://genius.com/Childish-gambino-ii-zealots-of-stockholm-free-information-lyrics,II. Zealots of Stockholm [Free Information]
-20,future,https://genius.com/Future-mask-off-lyrics,Mask Off
-21,future,https://genius.com/Drake-and-future-jumpman-lyrics,Jumpman
-22,future,https://genius.com/Jay-rock-kendrick-lamar-future-and-james-blake-kings-dead-lyrics,King’s Dead
+0,ed sheeran,https://genius.com/Ed-sheeran-photograph-lyrics,photograph
+1,ed sheeran,https://genius.com/Ed-sheeran-perfect-lyrics,perfect
+2,shawn mendes,https://genius.com/Shawn-mendes-treat-you-better-lyrics,treat you better
+3,taylor swift,https://genius.com/Taylor-swift-all-too-well-lyrics,all too well
+5,coldplay,https://genius.com/Coldplay-paradise-lyrics,paradise
+6,coldplay,https://genius.com/Coldplay-the-scientist-lyrics,the scientist
+7,lauv,https://genius.com/Lauv-i-like-me-better-lyrics,i like me better
+8,khalid,https://genius.com/Khalid-better-lyrics,better
+9,lisa,https://genius.com/Lisa-money-lyrics,money
+10,maroon 5,https://genius.com/Maroon-5-animals-lyrics,animals
+11,maroon 5,https://genius.com/Maroon-5-one-more-night-lyrics,one more night
+12,sean paul,https://genius.com/Sean-paul-temperature-lyrics,temperature
+13,drake,https://genius.com/Drake-headlines-lyrics,Headlines
+14,junior boys,https://genius.com/Junior-boys-banana-ripple-lyrics,Banana Ripple
+15,junior boys,https://genius.com/Junior-boys-caught-in-a-wave-lyrics,Caught In A Wave
+16,junior boys,https://genius.com/Junior-boys-first-time-lyrics,First Time
+17,beach house,https://genius.com/Beach-house-days-of-candy-lyrics,Days of Candy
+18,beach house,https://genius.com/Beach-house-wild-lyrics,Wild
+19,beach house,https://genius.com/Beach-house-10-37-lyrics,10:37
+20,childish gambino,https://genius.com/Childish-gambino-sober-lyrics,Sober
+21,childish gambino,https://genius.com/Childish-gambino-me-and-your-mama-lyrics,Me and Your Mama
+22,childish gambino,https://genius.com/Childish-gambino-ii-zealots-of-stockholm-free-information-lyrics,II. Zealots of Stockholm [Free Information]
+23,future,https://genius.com/Future-mask-off-lyrics,Mask Off
+24,future,https://genius.com/Drake-and-future-jumpman-lyrics,Jumpman
+25,future,https://genius.com/Jay-rock-kendrick-lamar-future-and-james-blake-kings-dead-lyrics,King’s Dead

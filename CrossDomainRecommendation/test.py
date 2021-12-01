@@ -33,12 +33,24 @@ file_name = '..//dataset//song_database.csv'
 
 
 userId = input("Enter your user Id: ")
+try:
+    sql.insert_user_emotion(userId)
+except:
+    print("already exists")
+
 songName = input("Your song name: ")
 artistName = input("Artist of the given song: ")
+sql.insert_song_table(songName,artistName)
+
 rating = input("Enter rating 1-10: ")
+sql.insert_song_user_rating(userId,songName,rating)
 
 input_model.request_artist_song_url(artistName,songName)
 utils.database_update_user_input(artistName,songName,file_name)
 
-sql.insert(userId,songName,rating)
-sql.display()
+sql.display('user_emotion')
+sql.display('song_table')
+sql.display('song_user_rating')
+sql.display('song_emotion')
+
+
