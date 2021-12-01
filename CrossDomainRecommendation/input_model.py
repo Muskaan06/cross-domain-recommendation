@@ -35,7 +35,6 @@ def request_artist_song_url(artist_name, song_name):
     print(make_url)
     check_url_exist(make_url)
     tup = (artist_name, make_url, song_name)
-
     return tup
 
 
