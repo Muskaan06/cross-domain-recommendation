@@ -12,9 +12,9 @@ This is a model to recommend music based on the user's input song. We ask user f
 5. Next step involves making a cluster of each of these emotions and categorising the song into one of these such that the recommmended songs also belongs to the same cluster.
 
 
-##Updated:
+## Updated:
 
-###created 4 database tables:
+### created 4 database tables:
 
 1. **user_emotion**: keep track of each user and their emotion score after listening to each song. This is the main table for users.
 2. **song_table**: keep track of all the songs being listened by the user. This is the main table for songs only.
@@ -23,7 +23,7 @@ This is a model to recommend music based on the user's input song. We ask user f
 
 These databases where created using **sqlite3.**
 
-###added new files:
+### added new files:
 
 We have inserted 3 new files in this update: sql.py, creation_sql.py and lexicon_db.py
 
