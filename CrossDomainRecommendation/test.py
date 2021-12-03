@@ -7,7 +7,7 @@ from emotion_score import text_emotion
 
 while True:
     userId = input("Enter your user Id: ")
-    if(userId != ''):
+    if userId != '':
         break
 try:
     sql.insert_user_emotion(userId)
@@ -41,8 +41,8 @@ sql.display('song_emotion')
 print(url)
 for i in range(1,10):
     lyr = lyrics.scrape_song_lyrics(url)
-    if(lyr != ''):
-        break;
+    if lyr != '':
+        break
 
 lyr_lis = lyrics.clean_song(lyr)
 
