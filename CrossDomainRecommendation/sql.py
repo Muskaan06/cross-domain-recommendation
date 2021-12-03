@@ -39,6 +39,14 @@ def update_song_user_rating(user_id,songN,rating):
    crsr.execute(sql_command,(new_rate,user_id,songId))
    connection.commit()
 
+def insert_song_emotion(songN,emo_lis):
+   sql_command = """SELECT id FROM song_table WHERE song_name=?;"""
+   abc = crsr.execute(sql_command, (songN,))
+   for row in abc:
+      songId = row[0]
+   sql_command = """INSERT INTO song_emotion VALUES (?,?,?,?,?,?,?,?,?,?,?);"""
+   crsr.execute(sql_command,(songId,emo_lis[0],emo_lis[1],emo_lis[2],emo_lis[3],emo_lis[4],emo_lis[5],emo_lis[6],emo_lis[7],emo_lis[8],emo_lis[9]))
+   connection.commit()
 
 def display(table_name):
    sql_comm = """SELECT * FROM """+table_name+';'

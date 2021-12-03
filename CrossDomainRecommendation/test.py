@@ -32,10 +32,10 @@ try:
 except sqlite3.IntegrityError:
     sql.update_song_user_rating(userId,songName,rating)
 
-sql.display('user_emotion')
-sql.display('song_table')
-sql.display('song_user_rating')
-sql.display('song_emotion')
+# sql.display('user_emotion')
+# sql.display('song_table')
+# sql.display('song_user_rating')
+# sql.display('song_emotion')
 
 
 print(url)
@@ -49,7 +49,10 @@ lyr_lis = lyrics.clean_song(lyr)
 print(lyr_lis)
 
 
-text_emotion(lyr_lis)
+em_lis = text_emotion(lyr_lis)
+sql.insert_song_emotion(songName,em_lis)
+
+sql.display('song_emotion')
 
 
 
