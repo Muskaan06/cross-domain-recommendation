@@ -14,9 +14,10 @@ def check_url_exist(url):
     response = requests.get(url)
     if response.status_code == 200:
         print('Web site exists')
+        return 1
     else:
         print('Web site does not exist')
-        exit(0)
+        return 0
 
 def request_artist_song_url(artist_name, song_name):
     artist_name = artist_name.lower()
@@ -32,10 +33,8 @@ def request_artist_song_url(artist_name, song_name):
     base_url = 'https://genius.com'
 
     make_url = base_url + '/' + artist + '-' + song + '-' + 'lyrics'
-    print(make_url)
-    check_url_exist(make_url)
-    tup = (artist_name, make_url, song_name)
-    return tup
+    result_url = make_url
+    return result_url
 
 
 

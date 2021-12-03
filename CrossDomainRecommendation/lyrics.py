@@ -15,13 +15,14 @@ nltk.download('wordnet')
 from nltk.stem import WordNetLemmatizer
 from nltk.corpus import stopwords
 
+
 #scraping the lyrics
 def scrape_song_lyrics(url):
     lis=''
     page = requests.get(url)
     html = BeautifulSoup(page.text, 'html.parser')
 #     print(html)
-    lyrics = html.find_all('div', class_='Lyrics__Container-sc-1ynbvzw-10 cvsIWi')
+    lyrics = html.find_all('div', class_='lyrics')
     for ly in lyrics:
         lis += ly.get_text(separator = " ").strip()
     #remove identifiers like chorus, verse, etc
@@ -50,6 +51,6 @@ def clean_song(song_lyric):
     #lowercasing
     text_lower=text.lower()
     result=remove_punctuation(text_lower)
-    lyrics=[remove_stopwords(result)]
+    lyrics=remove_stopwords(result)
     return lyrics
 

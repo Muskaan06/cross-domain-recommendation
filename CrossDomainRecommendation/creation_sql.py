@@ -9,7 +9,7 @@ crsr = connection.cursor()
 print("Connected to the database")
 
 sql_command = """CREATE TABLE user_emotion (
-id              VARCHAR(50),
+id              VARCHAR(50) ,
 Positive        FLOAT DEFAULT '0.00',
 Negative        FLOAT DEFAULT '0.00',
 Anger           FLOAT DEFAULT '0.00',
@@ -27,7 +27,8 @@ crsr.execute(sql_command)
 sql_command = """CREATE TABLE song_table (
 id              INTEGER PRIMARY KEY AUTOINCREMENT,
 song_name       VARCHAR(50),
-artist_name     VARCHAR(20));"""
+artist_name     VARCHAR(20),
+UNIQUE (song_name,artist_name));"""
 crsr.execute(sql_command)
 
 
@@ -35,6 +36,7 @@ sql_command = """CREATE TABLE song_user_rating (
 user_id         VARCHAR(50),
 song_id         VARCHAR(20),
 rating          INT NOT NULL,
+play_count      INT NOT NULL,
 FOREIGN KEY (user_id) REFERENCES user_emotion(id),
 FOREIGN KEY (song_id) REFERENCES song_table(id),
 PRIMARY KEY (user_id,song_id));"""
