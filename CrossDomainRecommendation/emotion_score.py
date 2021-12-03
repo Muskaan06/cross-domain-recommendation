@@ -7,6 +7,7 @@ from nltk import word_tokenize
 from nltk.stem import WordNetLemmatizer
 import sqlite3
 
+#connecting to our NCR_lexicon database
 connection = sqlite3.connect('lexicon.db')
 
 crsr = connection.cursor()
@@ -16,27 +17,17 @@ sql_command = """SELECT "English (en)", Positive, Negative, Anger, Anticipation,
 
 column = crsr.execute(sql_command)
 
+#converting the database to dataframe
 tup_list = list()
 for row in column:
     tup_list.append(row)
 emolex_df = pd.DataFrame(tup_list,columns=['Word', 'Positive', 'Negative', 'Anger', 'Anticipation', 'Disgust', 'Fear', 'Joy', 'Sadness', 'Surprise', 'Trust'])
 
-# print(emolex_df)
-
-# emolex_df = emo_lex[
-#     ['English (en)', 'Positive', 'Negative', 'Anger', 'Anticipation', 'Disgust', 'Fear', 'Joy', 'Sadness', 'Surprise',
-#      'Trust']]
+#contains list of all emotions
 emotions = emolex_df.columns.drop('Word')
-# emolex_df.rename(columns={'English (en)': 'word'}, inplace=True)
 
 
-# for i in range(16):
-#     song=data.iloc[i,4]
-#     lyrics=re.sub('['+string.punctuation+']','',song)# removing punctuations
-#     data.iat[i,4]=lyrics
-
-
-# the function passes the column(col) of the respective dataframe passed as arguements
+# the function takes the lyrics as string and returns the list of calculated emotion scores
 def text_emotion(lyric_list):
     listToStr = ' '.join(map(str, lyric_list))
    
