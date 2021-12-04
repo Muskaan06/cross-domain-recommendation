@@ -11,6 +11,7 @@ This is a model to recommend music based on the user's input song. We ask user f
 4. After scraping the lyrics, we do the sentiment analysis of the song by calculating emotion score using [NRC Emotion Lexicon](https://saifmohammad.com/WebPages/NRC-Emotion-Lexicon.htm) which contains the list of more than 14,000 words and their associations with eight basic emotions (anger, fear, anticipation, trust, surprise, sadness, joy, and disgust) and two sentiments (negative and positive). 
 5. Next step involves making a cluster of each of these emotions and categorising the song into one of these such that the recommmended songs also belongs to the same cluster.
 
+[blog on recommendation](https://towardsdatascience.com/introduction-to-recommender-systems-6c66cf15ada)
 
 ## Updated:
 
