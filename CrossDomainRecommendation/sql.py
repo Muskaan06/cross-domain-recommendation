@@ -6,7 +6,7 @@ crsr = connection.cursor()
 
 
 # # SQL command to insert the data in the table
-def insert_user_emotion(user_id, emo_list, rating):
+def insert_user_emotion(user_id):
     sql_command = """INSERT INTO user_emotion (id) VALUES (?);"""
     crsr.execute(sql_command, (user_id,))
     connection.commit()
@@ -31,7 +31,10 @@ def update_user_emotion(user_id, emo_list, rating):
     print("--------------------------")
     print(emo_user)
 
-    # connection.commit()
+    sql_command = """UPDATE user_emotion SET Positive=?, Negative=?, Anger=?, Anticipation=?, Disgust=?, Fear=?, Joy=?, Sadness=?, Surprise=?, Trust=? WHERE id=?;"""
+    crsr.execute(sql_command, (emo_user[0], emo_user[1], emo_user[2], emo_user[3], emo_user[4], emo_user[5], emo_user[6], emo_user[7],emo_user[8],emo_user[9],user_id))
+
+    connection.commit()
 
 
 def insert_song_table(song_name, artist_name):

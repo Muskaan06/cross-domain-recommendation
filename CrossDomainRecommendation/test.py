@@ -11,7 +11,7 @@ while True:
         break
 try:
     sql.insert_user_emotion(userId)
-except:
+except sqlite3.IntegrityError:
     print("already exists")
 
 #taking song_name and artist_name input from user and generate url if the song/artist exists
