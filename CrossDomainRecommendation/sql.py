@@ -5,10 +5,32 @@ connection = sqlite3.connect('song_user2.db')
 crsr = connection.cursor()
 
 # # SQL command to insert the data in the table
-def insert_user_emotion(user_id):
+def insert_user_emotion(user_id,emo_list,rating):
    sql_command = """INSERT INTO user_emotion (id) VALUES (?);"""
    crsr.execute(sql_command,(user_id,))
    connection.commit()
+
+def update_user_emotion(user_id,emo_list,rating):
+
+   # denominator for wt. avg
+   sql_command2 = """SELECT SUM(rating*play_count) FROM song_user_rating WHERE user_id=?; """
+   demo = crsr.execute(sql_command2,(user_id,))
+   emo_user = list()
+   for row1 in demo:
+      denom = row1[0]
+
+   sql_command1 = """SELECT Positive, Negative, Anger, Anticipation, Disgust, Fear, Joy, Sadness, Surprise, Trust FROM user_emotion WHERE id=?;"""
+   demo2 = crsr.execute(sql_command1, (user_id,))
+   for row2 in demo2:
+      print(row2)
+
+   print(emo_user)
+   for i,emo in enumerate(emo_user):
+      emo = (emo*denom+emo_list[i]*rating)/(denom+rating)
+   print("--------------------------")
+   print(emo_user)
+
+   # connection.commit()
 
 def insert_song_table(song_name,artist_name):
    sql_command = """INSERT INTO song_table (song_name,artist_name) VALUES (?,?);"""

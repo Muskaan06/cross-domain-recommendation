@@ -27,11 +27,15 @@ while True:
         break
 
 #asking the user to rate the input song
-rating = input("Enter rating 1-10: ")
-try:
-    sql.insert_song_user_rating(userId, songName, rating)
-except sqlite3.IntegrityError:
-    sql.update_song_user_rating(userId,songName,rating)
+while True:
+    rating = input("Enter rating 1-10: ")
+    rating = int(rating)
+    if(rating>0 and rating<=10):
+        try:
+            sql.insert_song_user_rating(userId, songName, rating)
+        except sqlite3.IntegrityError:
+            sql.update_song_user_rating(userId,songName,rating)
+        break;
 
 # sql.display('user_emotion')
 # sql.display('song_table')
@@ -47,13 +51,19 @@ for i in range(1,10):
 
 lyr_lis = lyrics.clean_song(lyr)
 
-print(lyr_lis)
 
 #calculate emotion score
 em_lis = text_emotion(lyr_lis)
-sql.insert_song_emotion(songName,em_lis)
+try:
+    sql.insert_song_emotion(songName,em_lis)
+except sqlite3.IntegrityError:
+    print("emotion score already exists! ")
 
-sql.display('song_emotion')
+
+#update user emotion
+sql.update_user_emotion(userId,em_lis,rating)
+
+sql.display('song_user_rating')
 
 
 
