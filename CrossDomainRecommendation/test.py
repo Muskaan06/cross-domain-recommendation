@@ -27,7 +27,7 @@ while True:
     url = input_model.request_artist_song_url(artistName,songName)
     if input_model.check_url_exist(url)==1:
         try:
-            sql.insert_song_table(songName,artistName)
+            sql.insert_song_table(songName.title(),artistName.title())
         except sqlite3.IntegrityError:
             print("already played!")
         break
