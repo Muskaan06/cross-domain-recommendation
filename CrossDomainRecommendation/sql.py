@@ -79,6 +79,11 @@ def get_user_ratings(userID):
         user_ratings.append(list(row))
     return user_ratings
 
+def get_user_emotion(userID):
+    sql_command1 = """SELECT Positive, Negative, Anger, Anticipation, Disgust, Fear, Joy, Sadness, Surprise, Trust FROM user_emotion WHERE id=?;"""
+    demo2 = crsr.execute(sql_command1, (userID,))
+    for row2 in demo2:
+        return list(row2)
 
 def insert_song_table(song_name, artist_name):
     sql_command = """INSERT INTO song_table (song_name,artist_name) VALUES (?,?);"""
