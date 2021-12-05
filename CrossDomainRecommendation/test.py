@@ -4,6 +4,7 @@ import lyrics
 import sqlite3
 from emotion_score import text_emotion
 import re
+import clustering
 
 #taking user_id input from user
 while True:
@@ -66,10 +67,11 @@ except sqlite3.IntegrityError:
 
 
 #update user emotion
-sql.update_user_emotion(userId,em_lis,rating)
+sql.update_user_emotion(userId, em_lis, rating)
 
 sql.display('song_user_rating')
 
+clustering.song_rec(userId, songName, em_lis)
 
 
 
