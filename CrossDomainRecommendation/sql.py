@@ -1,6 +1,6 @@
 import sqlite3
 
-connection = sqlite3.connect('song_user2.db')
+connection = sqlite3.connect('SongUser.db')
 
 crsr = connection.cursor()
 

@@ -3,12 +3,17 @@ import input_model
 import lyrics
 import sqlite3
 from emotion_score import text_emotion
+import re
 
 #taking user_id input from user
 while True:
     userId = input("Enter your user Id: ")
-    if userId != '':
+    x = re.search("\W", userId)
+    if x != None:
+        print("invalid username")
+    else:
         break
+
 try:
     sql.insert_user_emotion(userId)
 except sqlite3.IntegrityError:
