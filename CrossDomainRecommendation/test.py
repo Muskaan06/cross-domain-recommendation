@@ -43,10 +43,7 @@ while True:
             sql.update_song_user_rating(userId,songName,rating)
         break;
 
-# sql.display('user_emotion')
-# sql.display('song_table')
-# sql.display('song_user_rating')
-# sql.display('song_emotion')
+
 
 #scrape and clean lyrics
 print(url)
@@ -69,7 +66,7 @@ except sqlite3.IntegrityError:
 #update user emotion
 sql.update_user_emotion(userId, em_lis, rating)
 
-sql.display('song_user_rating')
+
 
 clustering.song_rec(userId, songName, em_lis)
 
