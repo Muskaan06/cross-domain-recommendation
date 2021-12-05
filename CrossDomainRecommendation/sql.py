@@ -36,6 +36,21 @@ def update_user_emotion(user_id, emo_list, rating):
 
     connection.commit()
 
+def fetch_song_emotion():
+    sql_command = """SELECT song_id FROM song_emotion"""
+    demo2 = crsr.execute(sql_command)
+    song_list = []
+
+    for row2 in demo2:
+        song_list.append((row2[0]))
+
+    song_emo = []
+    sql_command = """SELECT Positive, Negative, Anger, Anticipation, Disgust, Fear, Joy, Sadness, Surprise, Trust FROM song_emotion"""
+    demo2 = crsr.execute(sql_command)
+    for row2 in demo2:
+        song_emo.append(list(row2))
+
+    return song_emo,song_list
 
 def insert_song_table(song_name, artist_name):
     sql_command = """INSERT INTO song_table (song_name,artist_name) VALUES (?,?);"""
