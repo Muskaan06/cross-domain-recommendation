@@ -65,3 +65,4 @@ for row in sdf:
 
 connection.commit()
 connection.close()
+
