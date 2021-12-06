@@ -1,12 +1,10 @@
-import pandas as pd
-import scipy as sp
-import sqlite3
+
 import numpy as np
-import matplotlib.pyplot as plt
 import sql
 
 def collaborativeFiltering(user_name, song_name, artist_name):
     song_id_input = sql.get_song_id_input(song_name,artist_name)
+    print(song_id_input)
     user_list_common = sql.get_user_list_common(song_id_input)
     print(user_list_common)
 
@@ -35,3 +33,4 @@ def collaborativeFiltering(user_name, song_name, artist_name):
     sql.print_cf_output(int_list)
     return suggested_song_id
 
+# collaborativeFiltering('gaurav','Your Love Is My Drug','Kesha')

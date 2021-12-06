@@ -28,7 +28,7 @@ def update_user_emotion(user_id, emo_list, rating):
     for i, emo in enumerate(emo_user):
         emo_user[i] = (emo * denom + emo_list[i] * rating) / (denom + rating)
     print("--------------------------")
-    print(emo_user)
+    # print(emo_user)
 
     sql_command = """UPDATE user_emotion SET Positive=?, Negative=?, Anger=?, Anticipation=?, Disgust=?, Fear=?, Joy=?, Sadness=?, Surprise=?, Trust=? WHERE id=?;"""
     crsr.execute(sql_command, (
