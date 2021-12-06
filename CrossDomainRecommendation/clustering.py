@@ -5,6 +5,7 @@ song_emo, song_list = sql.fetch_song_emotion()
 
 data = song_emo
 labels = song_list
+song_id = 0
 
 n_clusters = 15
 kmeans = KMeans(n_clusters, random_state=0).fit(data)
@@ -17,8 +18,8 @@ for i, j in enumerate(pred_clusters):
 trained_data = cluster_labels
 
 
-def song_rec(userID, songN, emo_list):
-    song_id = sql.get_song_id(songN)
+def song_rec_clustering(userID, songN, emo_list):
+    # song_id = sql.get_song_id(songN)
     user_emo = sql.get_user_emotion(userID)
     y = kmeans.predict([user_emo])
     x = kmeans.predict([emo_list])
@@ -26,8 +27,12 @@ def song_rec(userID, songN, emo_list):
     if y != x:
         for val in trained_data[y[0]]:
             rec_ids.append(val)
-    user_ratings = sql.get_user_ratings(userID)
+    return rec_ids
 
+
+def song_rec(userID,songN,rec_ids):
+    user_ratings = sql.get_user_ratings(userID)
+    song_id = sql.get_song_id(songN)
     for id in rec_ids[:10]:
         flag = 0
         if id == song_id: continue
@@ -55,6 +60,6 @@ def song_rec(userID, songN, emo_list):
     # trained_data[x[0]].append(song_id)
 
 
-print(trained_data)
-for d in trained_data:
-    print(len(d))
+# print(trained_data)
+# for d in trained_data:
+#     print(len(d))

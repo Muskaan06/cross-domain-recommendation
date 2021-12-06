@@ -66,6 +66,7 @@ def fetch_song_emotion():
 def get_song_id(songN):
     sql_command = """SELECT id FROM song_table WHERE song_name=?;"""
     abc = crsr.execute(sql_command, (songN,))
+    songId = 0
     for row in abc:
         songId = row[0]
     return songId
@@ -94,6 +95,7 @@ def insert_song_table(song_name, artist_name):
 def insert_song_user_rating(user_id, songN, rating):
     sql_command = """SELECT id FROM song_table WHERE song_name=?;"""
     abc = crsr.execute(sql_command, (songN,))
+    songId = 0
     for row in abc:
         songId = row[0]
     sql_command = """INSERT INTO song_user_rating VALUES (?,?,?,1);"""
@@ -104,6 +106,7 @@ def insert_song_user_rating(user_id, songN, rating):
 def update_song_user_rating(user_id, songN, rating):
     sql_command = """SELECT id FROM song_table WHERE song_name=?;"""
     abc = crsr.execute(sql_command, (songN,))
+    songId = 0
     for row in abc:
         songId = row[0]
     sql_command = """SELECT rating,play_count FROM song_user_rating WHERE user_id=? AND song_id=?;"""
@@ -122,6 +125,7 @@ def update_song_user_rating(user_id, songN, rating):
 def insert_song_emotion(songN, emo_lis):
     sql_command = """SELECT id FROM song_table WHERE song_name=?;"""
     abc = crsr.execute(sql_command, (songN,))
+    songId = 0
     for row in abc:
         songId = row[0]
     sql_command = """INSERT INTO song_emotion VALUES (?,?,?,?,?,?,?,?,?,?,?);"""

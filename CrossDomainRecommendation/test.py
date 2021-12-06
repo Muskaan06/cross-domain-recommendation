@@ -5,6 +5,7 @@ import sqlite3
 from emotion_score import text_emotion
 import re
 import clustering
+import cf_model
 
 #taking user_id input from user
 while True:
@@ -64,11 +65,14 @@ except sqlite3.IntegrityError:
 
 
 #update user emotion
+rec_final = list()
 sql.update_user_emotion(userId, em_lis, rating)
 
+# rec_lis = clustering.song_rec_clustering(userId, songName, em_lis)
 
+cf_list = cf_model.collaborativeFiltering(userId,songName,artistName)
 
-clustering.song_rec(userId, songName, em_lis)
-
-
-
+sql.display('song_user_rating')
+#
+# # rec_final = rec_lis.append(cf_list)
+# clustering.song_rec(userId,songName,cf_list)
