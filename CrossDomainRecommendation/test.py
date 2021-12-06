@@ -72,7 +72,6 @@ sql.update_user_emotion(userId, em_lis, rating)
 
 cf_list = cf_model.collaborativeFiltering(userId,songName,artistName)
 
-sql.display('song_user_rating')
 #
 # # rec_final = rec_lis.append(cf_list)
-# clustering.song_rec(userId,songName,cf_list)
+clustering.song_rec(userId,songName,cf_list)

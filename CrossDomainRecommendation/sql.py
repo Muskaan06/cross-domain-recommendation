@@ -86,6 +86,41 @@ def get_user_emotion(userID):
     for row2 in demo2:
         return list(row2)
 
+def get_song_id_input(song_name, artist_name):
+    sql_command1 = """SELECT id FROM song_table WHERE song_name=? and artist_name=?;"""
+    qwe = crsr.execute(sql_command1, (song_name, artist_name,))
+    song_id_input = 0
+    for row in qwe:
+        song_id_input = row[0]
+    return song_id_input
+
+def get_user_list_common(song_id_input):
+    sql_command2 = """SELECT user_id FROM song_user_rating WHERE song_id=?;"""
+    abc = crsr.execute(sql_command2, (song_id_input,))
+    user_list_common = []
+    for row in abc:
+        user_list_common.append(row[0])
+    return user_list_common
+
+def get_user_song_matrix(user_list_common):
+    user_song_matrix = []
+    for users in user_list_common:
+
+        sql_command3 = """SELECT song_id from song_user_rating where user_id=?;"""
+        efg = crsr.execute(sql_command3, (users,))
+        for row in efg:
+            user_song_matrix.append(row[0])
+    return user_song_matrix
+
+def print_cf_output(int_list):
+    sql_command4 = """SELECT song_name,artist_name FROM song_table WHERE id in """ + int_list + ';'
+    sdf = crsr.execute(sql_command4)
+
+    for row in sdf:
+        print(row[0]," by ",row[1])
+
+
+
 def insert_song_table(song_name, artist_name):
     sql_command = """INSERT INTO song_table (song_name,artist_name) VALUES (?,?);"""
     crsr.execute(sql_command, (song_name, artist_name))
