@@ -6,7 +6,7 @@ from emotion_score import text_emotion
 import re
 import clustering
 import cf_model
-import numpy as np
+import spotify_connect
 
 #taking user_id input from user
 while True:
@@ -66,15 +66,15 @@ except sqlite3.IntegrityError:
 
 
 #update user emotion
-sql.update_user_emotion(userId, em_lis, rating)
-
-rec_lis = clustering.song_rec_clustering(userId, songName, em_lis)
-
-cf_list = cf_model.collaborativeFiltering(userId,songName.title(),artistName.title())
-
-for rec in rec_lis:
-    if rec not in cf_list:
-        cf_list.append(rec)
-
-
-clustering.song_rec(userId,songName,cf_list)
+# sql.update_user_emotion(userId, em_lis, rating)
+#
+# rec_lis = clustering.song_rec_clustering(userId, songName, em_lis)
+#
+# cf_list = cf_model.collaborativeFiltering(userId,songName.title(),artistName.title())
+#
+# for rec in rec_lis:
+#     if rec not in cf_list:
+#         cf_list.append(rec)
+#
+#
+# clustering.song_rec(userId,songName,cf_list)

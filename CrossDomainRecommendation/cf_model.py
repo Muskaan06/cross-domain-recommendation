@@ -6,7 +6,7 @@ def collaborativeFiltering(user_name, song_name, artist_name):
     song_id_input = sql.get_song_id_input(song_name,artist_name)
     print(song_id_input)
     user_list_common = sql.get_user_list_common(song_id_input)
-    print(user_list_common)
+    # print(user_list_common)
 
 
     user_song_matrix = sql.get_user_song_matrix(user_list_common)

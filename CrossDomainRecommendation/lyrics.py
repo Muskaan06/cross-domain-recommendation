@@ -1,20 +1,18 @@
 import requests
 from bs4 import BeautifulSoup
-import re
 import os
-import pandas as pd
-import numpy as np
 import nltk
 nltk.download('punkt')
 nltk.download('stopwords')
 import re
 import string
-from nltk.stem import PorterStemmer
-from nltk.tokenize import word_tokenize,sent_tokenize
+from nltk.tokenize import word_tokenize
 nltk.download('wordnet')
-from nltk.stem import WordNetLemmatizer
 from nltk.corpus import stopwords
 
+with open('genius_api_token.txt') as f:
+    GENIUS_API_TOKEN = f.read()
+f.close()
 
 #scraping the lyrics
 def scrape_song_lyrics(url):
@@ -54,3 +52,4 @@ def clean_song(song_lyric):
     lyrics=remove_stopwords(result)
     return lyrics
 
+print(get_song_genre('Perfect','Ed Sheeran'))
