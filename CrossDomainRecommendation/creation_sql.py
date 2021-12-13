@@ -62,7 +62,7 @@ crsr = connection.cursor()
 #
 #
 #
-sql_command = """delete from song_table where song_name='money' and artist_name='lisa'"""
+sql_command = """ALTER TABLE song_emotion ADD Tags VARCHAR(200) DEFAULT '';"""
 crsr.execute(sql_command)
 #
 connection.commit()

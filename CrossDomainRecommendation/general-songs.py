@@ -33,6 +33,6 @@ for row in df.iterrows():
         #calculate emotion score
         em_lis = text_emotion(lyr_lis)
         try:
-            sql.insert_song_emotion(songName,em_lis)
+            sql.insert_song_emotion(songName, artistName, em_lis)
         except sqlite3.IntegrityError:
             print("emotion score already exists! ")

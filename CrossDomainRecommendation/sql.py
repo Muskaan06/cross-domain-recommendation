@@ -1,4 +1,5 @@
 import sqlite3
+import genre
 
 connection = sqlite3.connect('SongUser.db')
 
@@ -38,6 +39,15 @@ def update_user_emotion(user_id, emo_list, rating):
 
     connection.commit()
 
+def update_song_genre(songN, artist):
+    tags = genre.get_genre(songN,artist)
+    result = ','.join(tag for tag in tags)
+    song_id = get_song_id_input(songN, artist)
+    sql_command = '''UPDATE song_emotion
+                     SET Tags=?
+                     WHERE song_id=?'''
+    crsr.execute(sql_command, (result,song_id))
+    connection.commit()
 
 def get_song_emotion(song_id):
     sql_command1 = """SELECT Positive, Negative, Anger, Anticipation, Disgust, Fear, Joy, Sadness, Surprise, Trust FROM song_emotion WHERE song_id=?;"""
@@ -157,17 +167,20 @@ def update_song_user_rating(user_id, songN, rating):
     connection.commit()
 
 
-def insert_song_emotion(songN, emo_lis):
-    sql_command = """SELECT id FROM song_table WHERE song_name=?;"""
-    abc = crsr.execute(sql_command, (songN,))
+def insert_song_emotion(songN, artist, emo_lis):
+    sql_command = """SELECT id FROM song_table WHERE song_name=? AND artist_name=?;"""
+    abc = crsr.execute(sql_command, (songN,artist))
     songId = 0
     for row in abc:
         songId = row[0]
-    sql_command = """INSERT INTO song_emotion VALUES (?,?,?,?,?,?,?,?,?,?,?);"""
+    print('SONG_ID----->')
+    print(songId)
+    tags = genre.get_genre(songN,artist)
+    result = ','.join(tag for tag in tags)
+    sql_command = """INSERT INTO song_emotion VALUES (?,?,?,?,?,?,?,?,?,?,?,?);"""
     crsr.execute(sql_command, (
         songId, emo_lis[0], emo_lis[1], emo_lis[2], emo_lis[3], emo_lis[4], emo_lis[5], emo_lis[6], emo_lis[7],
-        emo_lis[8],
-        emo_lis[9]))
+        emo_lis[8], emo_lis[9], result))
     connection.commit()
 
 
