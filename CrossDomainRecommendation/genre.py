@@ -14,7 +14,7 @@ def genre_url(songName, artistName):
     artistName = artistName.replace(' ', '+')
 
     g_url = 'https://www.last.fm/music/' + artistName + '/_/' + songName
-    print(g_url)
+    # print(g_url)
     return g_url
 
 

@@ -17,6 +17,7 @@ sql_command = """SELECT "English (en)", Positive, Negative, Anger, Anticipation,
 
 column = crsr.execute(sql_command)
 
+
 #converting the database to dataframe
 tup_list = list()
 for row in column:
