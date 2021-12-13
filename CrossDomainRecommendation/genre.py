@@ -1,7 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 
-ll = []
+
 
 
 # song = input("song name: ")
@@ -19,6 +19,7 @@ def genre_url(songName, artistName):
 
 
 def get_genre(songName, artistName):
+    ll = []
     g_url = genre_url(songName, artistName)
     result = requests.get(g_url)
     html1 = BeautifulSoup(result.text, 'html.parser')

@@ -4,6 +4,7 @@ connection = sqlite3.connect('SongUser.db')
 
 crsr = connection.cursor()
 
+#CREATING TABLES
 # # print statement will execute if there
 # # are no errors
 # print("Connected to the database")
@@ -62,9 +63,10 @@ crsr = connection.cursor()
 #
 #
 #
-sql_command = """ALTER TABLE song_emotion ADD Tags VARCHAR(200) DEFAULT '';"""
-crsr.execute(sql_command)
-#
-connection.commit()
+
+#ADDED SONG TAGS
+# sql_command = """ALTER TABLE song_emotion ADD Tags VARCHAR(200) DEFAULT '';"""
+# crsr.execute(sql_command)
+# connection.commit()
 
 connection.close()

@@ -39,15 +39,18 @@ def update_user_emotion(user_id, emo_list, rating):
 
     connection.commit()
 
+
 def update_song_genre(songN, artist):
-    tags = genre.get_genre(songN,artist)
+    tags = genre.get_genre(songN, artist)
+    print(tags)
     result = ','.join(tag for tag in tags)
     song_id = get_song_id_input(songN, artist)
     sql_command = '''UPDATE song_emotion
                      SET Tags=?
                      WHERE song_id=?'''
-    crsr.execute(sql_command, (result,song_id))
+    crsr.execute(sql_command, (result, song_id))
     connection.commit()
+
 
 def get_song_emotion(song_id):
     sql_command1 = """SELECT Positive, Negative, Anger, Anticipation, Disgust, Fear, Joy, Sadness, Surprise, Trust FROM song_emotion WHERE song_id=?;"""
@@ -90,11 +93,13 @@ def get_user_ratings(userID):
         user_ratings.append(list(row))
     return user_ratings
 
+
 def get_user_emotion(userID):
     sql_command1 = """SELECT Positive, Negative, Anger, Anticipation, Disgust, Fear, Joy, Sadness, Surprise, Trust FROM user_emotion WHERE id=?;"""
     demo2 = crsr.execute(sql_command1, (userID,))
     for row2 in demo2:
         return list(row2)
+
 
 def get_song_id_input(song_name, artist_name):
     sql_command1 = """SELECT id FROM song_table WHERE song_name=? and artist_name=?;"""
@@ -104,6 +109,7 @@ def get_song_id_input(song_name, artist_name):
         song_id_input = row[0]
     return song_id_input
 
+
 def get_user_list_common(song_id_input):
     sql_command2 = """SELECT user_id FROM song_user_rating WHERE song_id=?;"""
     abc = crsr.execute(sql_command2, (song_id_input,))
@@ -111,6 +117,7 @@ def get_user_list_common(song_id_input):
     for row in abc:
         user_list_common.append(row[0])
     return user_list_common
+
 
 def get_user_song_matrix(user_list_common):
     user_song_matrix = []
@@ -122,13 +129,13 @@ def get_user_song_matrix(user_list_common):
             user_song_matrix.append(row[0])
     return user_song_matrix
 
+
 def print_cf_output(int_list):
     sql_command4 = """SELECT song_name,artist_name FROM song_table WHERE id in """ + int_list + ';'
     sdf = crsr.execute(sql_command4)
 
     for row in sdf:
-        print(row[0]," by ",row[1])
-
+        print(row[0], " by ", row[1])
 
 
 def insert_song_table(song_name, artist_name):
@@ -169,13 +176,13 @@ def update_song_user_rating(user_id, songN, rating):
 
 def insert_song_emotion(songN, artist, emo_lis):
     sql_command = """SELECT id FROM song_table WHERE song_name=? AND artist_name=?;"""
-    abc = crsr.execute(sql_command, (songN,artist))
+    abc = crsr.execute(sql_command, (songN, artist))
     songId = 0
     for row in abc:
         songId = row[0]
     print('SONG_ID----->')
     print(songId)
-    tags = genre.get_genre(songN,artist)
+    tags = genre.get_genre(songN, artist)
     result = ','.join(tag for tag in tags)
     sql_command = """INSERT INTO song_emotion VALUES (?,?,?,?,?,?,?,?,?,?,?,?);"""
     crsr.execute(sql_command, (
@@ -189,6 +196,12 @@ def display(table_name):
     cursor = crsr.execute(sql_comm)
     for row in cursor:
         print(row)
+
+
+def get_song_table():
+    sql_comm = '''SELECT * FROM song_table'''
+    output = crsr.execute(sql_comm)
+    return output
 
 
 def display_song_rec(rec_id):
