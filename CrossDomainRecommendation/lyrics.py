@@ -24,6 +24,9 @@ def scrape_song_lyrics(url):
     html = BeautifulSoup(page.text, 'html.parser')
     #     print(html)
     lyrics = html.find_all('div', class_='Lyrics__Container-sc-1ynbvzw-6 lgZgEN')
+
+    if lyrics==[]:
+        return None
     for ly in lyrics:
         lis += ly.get_text(separator=" ").strip()
     # remove identifiers like chorus, verse, etc

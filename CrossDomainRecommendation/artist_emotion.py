@@ -57,9 +57,12 @@ def get_artist_emotion(artistName):
         english_flag = True
         song_name_str = song_list[i]
         song_url = url_list[i]
-        print(song_url)
-        tag_list = genre.get_genre(song_name_str, artistName)
-        print("tag list: ", tag_list)
+        # print(song_url)
+        try:
+            tag_list = genre.get_genre(song_name_str, artistName)
+            print("tag list: ", tag_list)
+        except requests.exceptions.ConnectionError:
+            tag_list=[]
         for tag in tag_list:
             words = tag.split(" ")
             for wd in words:
@@ -68,17 +71,22 @@ def get_artist_emotion(artistName):
                     break
         # add to emotion only if song is in english and tags are non empty
         if english_flag and len(tag_list) > 0:
-            song_count += 1
+
             while True:
                 lyr = lyrics.scrape_song_lyrics(song_url)
+                if lyr==None:
+                    break
                 if lyr != '':
                     break
 
-            lyr_lis = lyrics.clean_song(lyr)
-            song_emotion = emotion_score.text_emotion(lyr_lis)
-            for j in range(10):
-                artist_emotion[j] += song_emotion[j]
-            print(song_emotion)
+            if lyr!=None:
+                song_count += 1
+                lyr_lis = lyrics.clean_song(lyr)
+                song_emotion = emotion_score.text_emotion(lyr_lis)
+                for j in range(10):
+                    artist_emotion[j] += song_emotion[j]
+
+                print(song_emotion)
 
     # average artist emotion
     if song_count:
@@ -87,5 +95,5 @@ def get_artist_emotion(artistName):
     return artist_emotion
 
 
-artistName = input('enter favorite artist: ')
-get_artist_emotion(artistName)
+# artistName = input('enter favorite artist: ')
+# get_artist_emotion(artistName)
