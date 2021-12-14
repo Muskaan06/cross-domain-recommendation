@@ -48,6 +48,7 @@ columns = COLUMN_STR.split("\t")
 columns = [a.split(" ")[0] for a in columns]
 columns = [word.lower() for word in columns]
 
+CHECK_EMPTY_LIST = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
 def get_artist_emotion(artistName):
     artist_emotion = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
@@ -81,13 +82,15 @@ def get_artist_emotion(artistName):
                     break
 
             if lyr!=None:
-                song_count += 1
                 lyr_lis = lyrics.clean_song(lyr)
                 song_emotion = emotion_score.text_emotion(lyr_lis)
-                for j in range(10):
-                    artist_emotion[j] += song_emotion[j]
+                # ignore songs with all 0 emotions
+                if song_emotion != CHECK_EMPTY_LIST:
+                    song_count += 1
+                    for j in range(10):
+                        artist_emotion[j] += song_emotion[j]
 
-                print(song_emotion)
+                    print(song_emotion)
 
     # average artist emotion
     if song_count:

@@ -25,7 +25,7 @@ def scrape_song_lyrics(url):
     #     print(html)
     lyrics = html.find_all('div', class_='Lyrics__Container-sc-1ynbvzw-6 lgZgEN')
     # print("lyrics:",lyrics)
-    if lyrics==[]:
+    if lyrics == []:
         return None
     for ly in lyrics:
         text = ly.get_text(separator=" ").strip()
