@@ -26,10 +26,9 @@ def append_csv(fileName,lis):
 
 for row in df.iterrows():
     aId = row[1]['artist_id']
-    if aId > 1000010:
-        break
-    aName = row[1]['artist_name']
-    lis = artist_emotion.get_artist_emotion(aName)
-    lis.insert(0,aId)
-    lis = tuple(lis)
-    append_csv("artist_emotion.csv",lis)
+    if 1000010 < aId < 1000050:
+        aName = row[1]['artist_name']
+        lis = artist_emotion.get_artist_emotion(aName)
+        lis.insert(0,aId)
+        lis = tuple(lis)
+        append_csv("artist_emotion.csv",lis)
