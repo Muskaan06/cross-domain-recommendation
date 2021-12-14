@@ -28,10 +28,13 @@ def request_artist_song_url(artist_name, song_name):
     artist = artist.capitalize()
 
     song = song_name.replace(' ', '-')
+    song = song.replace("'", "")
+    song = song.replace("(", "")
+    song = song.replace(")", "")
     base_url = 'https://genius.com'
 
     make_url = base_url + '/' + artist + '-' + song + '-' + 'lyrics'
     result_url = make_url
     return result_url
 
-
+# print(request_artist_song_url('Enrique iglesias', "somebody's me"))
