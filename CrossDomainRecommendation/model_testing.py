@@ -26,7 +26,7 @@ def append_csv(fileName,lis):
 
 for row in df.iterrows():
     aId = row[1]['artist_id']
-    if 1000010 < aId < 1000050:
+    if 10000100 < aId < 1000102:
         aName = row[1]['artist_name']
         lis = artist_emotion.get_artist_emotion(aName)
         lis.insert(0,aId)
