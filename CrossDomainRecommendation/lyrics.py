@@ -24,11 +24,13 @@ def scrape_song_lyrics(url):
     html = BeautifulSoup(page.text, 'html.parser')
     #     print(html)
     lyrics = html.find_all('div', class_='Lyrics__Container-sc-1ynbvzw-6 lgZgEN')
-    # print("lyrics:",lyrics)
+    # print("lyrics:", lyrics)
+    # if not lyrics div exists
     if lyrics == []:
         return None
     for ly in lyrics:
         text = ly.get_text(separator=" ").strip()
+        # if lyrics div contains no text
         if re.search('[a-zA-Z]', text) is None:
             return None
         lis += text
@@ -36,6 +38,9 @@ def scrape_song_lyrics(url):
     lis = re.sub(r'[\(\[].*?[\)\]]', '', lis)
     # remove empty lines
     lis = os.linesep.join([s for s in lis.splitlines() if s])
+    # if lyrics div is empty after removing identifiers
+    if lis == '':
+        lis = 'x'
     return lis
 
 
