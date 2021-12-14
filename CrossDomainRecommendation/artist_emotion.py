@@ -74,6 +74,7 @@ def get_artist_emotion(artistName):
 
             while True:
                 lyr = lyrics.scrape_song_lyrics(song_url)
+                # print(lyr)
                 if lyr==None:
                     break
                 if lyr != '':
