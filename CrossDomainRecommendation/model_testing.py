@@ -25,14 +25,19 @@ def append_csv(fileName, lis):
         })
 
 
-check_empty_list = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+CHECK_EMPTY_LIST = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
-for row in df.iterrows():
-    aId = row[1]['artist_id']
-    if aId == 1010000:
-        aName = row[1]['artist_name']
-        lis = artist_emotion.get_artist_emotion(aName)
-        if lis != check_empty_list:
-            lis.insert(0, aId)
-            lis = tuple(lis)
-            append_csv("artist_emotion_1010001.csv", lis)
+
+def insert_emotions(lower, upper, filename):
+    for row in df.iterrows():
+        aId = row[1]['artist_id']
+        if 1000000 + lower < aId < 1000000 + upper:
+            aName = row[1]['artist_name']
+            lis = artist_emotion.get_artist_emotion(aName)
+            if lis != CHECK_EMPTY_LIST:
+                lis.insert(0, aId)
+                lis = tuple(lis)
+                append_csv(filename, lis)
+
+
+insert_emotions(10750, 10753, "artist_emotion_1010001.csv")

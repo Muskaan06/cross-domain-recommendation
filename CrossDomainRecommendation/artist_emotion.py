@@ -50,6 +50,7 @@ columns = [word.lower() for word in columns]
 
 CHECK_EMPTY_LIST = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
+
 def get_artist_emotion(artistName):
     artist_emotion = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     song_count = 0
@@ -58,12 +59,12 @@ def get_artist_emotion(artistName):
         english_flag = True
         song_name_str = song_list[i]
         song_url = url_list[i]
-        # print(song_url)
+        print(song_url)
         try:
             tag_list = genre.get_genre(song_name_str, artistName)
             print("tag list: ", tag_list)
         except requests.exceptions.ConnectionError:
-            tag_list=[]
+            tag_list = []
         for tag in tag_list:
             words = tag.split(" ")
             for wd in words:
@@ -76,12 +77,14 @@ def get_artist_emotion(artistName):
             while True:
                 lyr = lyrics.scrape_song_lyrics(song_url)
                 # print(lyr)
-                if lyr==None:
+                if lyr is None:
+                    break
+                if lyr == 'x':
                     break
                 if lyr != '':
                     break
 
-            if lyr!=None:
+            if lyr is not None:
                 lyr_lis = lyrics.clean_song(lyr)
                 song_emotion = emotion_score.text_emotion(lyr_lis)
                 # ignore songs with all 0 emotions

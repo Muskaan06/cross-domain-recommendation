@@ -2,14 +2,14 @@ import requests
 from bs4 import BeautifulSoup
 import os
 import nltk
-
-nltk.download('punkt')
-nltk.download('stopwords')
+#
+# nltk.download('punkt')
+# nltk.download('stopwords')
 import re
 import string
 from nltk.tokenize import word_tokenize
-
-nltk.download('wordnet')
+#
+# nltk.download('wordnet')
 from nltk.corpus import stopwords
 
 with open('genius_api_token.txt') as f:
