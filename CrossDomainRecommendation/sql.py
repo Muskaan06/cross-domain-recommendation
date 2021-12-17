@@ -76,6 +76,24 @@ def fetch_song_emotion():
     return song_emo, song_list
 
 
+def fetch_user_emotion():
+    sql_command = """SELECT id FROM user_emotion"""
+    demo2 = crsr.execute(sql_command)
+    user_list = []
+
+    for row2 in demo2:
+        user_list.append((row2[0]))
+
+    user_emo = []
+    sql_command = """SELECT Positive, Negative, Anger, Anticipation, Disgust, Fear, Joy, Sadness, Surprise, Trust 
+                     FROM user_emotion"""
+    demo2 = crsr.execute(sql_command)
+    for row2 in demo2:
+        user_emo.append(list(row2))
+
+    return user_emo, user_list
+
+
 def get_song_id(songN):
     sql_command = """SELECT id FROM song_table WHERE song_name=?;"""
     abc = crsr.execute(sql_command, (songN,))
