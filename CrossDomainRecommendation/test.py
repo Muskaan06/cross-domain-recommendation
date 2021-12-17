@@ -71,12 +71,12 @@ except sqlite3.IntegrityError:
 sql.update_user_emotion(userId, em_lis, rating)
 
 # rec_lis = clustering.song_rec_clustering(userId, songName, em_lis)
-#
-# cf_list = cf_model.collaborativeFiltering(userId,songName,artistName)
-#
+
+cf_list = cf_model.collaborativeFiltering(userId,songName,artistName)
+
 # for rec in rec_lis:
 #     if rec not in cf_list:
 #         cf_list.append(rec)
-#
-#
-# clustering.song_rec(userId,songName,cf_list)
+
+
+clustering.song_rec(userId,songName,cf_list)
