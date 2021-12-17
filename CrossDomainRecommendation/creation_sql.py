@@ -26,7 +26,7 @@ crsr = connection.cursor()
 #
 #
 # sql_command = """CREATE TABLE song_table (
-# id              INTEGER PRIMARY KEY AUTOINCREMENT,
+# id              id SERIAL PRIMARY KEY,
 # song_name       VARCHAR(50),
 # artist_name     VARCHAR(20),
 # UNIQUE (song_name,artist_name));"""
@@ -37,7 +37,7 @@ crsr = connection.cursor()
 # user_id         VARCHAR(50),
 # song_id         VARCHAR(20),
 # rating          FLOAT NOT NULL,
-# play_count      INT NOT NULL,
+# play_count      NUMERIC NOT NULL,
 # FOREIGN KEY (user_id) REFERENCES user_emotion(id),
 # FOREIGN KEY (song_id) REFERENCES song_table(id),
 # PRIMARY KEY (user_id,song_id));"""
@@ -46,7 +46,7 @@ crsr = connection.cursor()
 #
 #
 # sql_command = """CREATE TABLE song_emotion (
-# song_id         INT ,
+# song_id         NUMERIC ,
 # Positive        FLOAT DEFAULT 0.0,
 # Negative        FLOAT DEFAULT 0.0,
 # Anger           FLOAT DEFAULT 0.0,
