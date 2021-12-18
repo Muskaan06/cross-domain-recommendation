@@ -8,6 +8,21 @@ import clustering
 import cf_model
 import spotify_connect
 
+# TODO: - user log in or sign in?
+# - ask new user for genre (3)
+# - show random songs with max matching genre (later on, can rec from top rated matches)
+# - ask for rating (not optional for new user)
+# - update user emotion
+# - ask new user for fav songs(3) (optional)
+# - rec by clustering the songs
+# - ask for rating (not optional for new user)
+# - update user emotion
+
+# old user -> 2options
+# 1- ask for recs according to a new song input (song_emotion)
+# 2- rec based on old activity (user_emotion)
+# TODO:  -testing
+
 # taking user_id input from user
 while True:
     userId = input("Enter your user Id: ")
@@ -23,7 +38,6 @@ try:
 except sqlite3.IntegrityError:
     print("already exists")
     new_user_flag = False
-
 
 # taking song_name and artist_name input from user and generate url if the song/artist exists
 while True:
@@ -72,11 +86,11 @@ sql.update_user_emotion(userId, em_lis, rating)
 
 # rec_lis = clustering.song_rec_clustering(userId, songName, em_lis)
 
-cf_list = cf_model.collaborativeFiltering(userId,songName,artistName)
+cf_list = cf_model.collaborativeFiltering(userId, songName, artistName)
 
 # for rec in rec_lis:
 #     if rec not in cf_list:
 #         cf_list.append(rec)
 
 
-clustering.song_rec(userId,songName,cf_list)
+clustering.song_rec(userId, songName, cf_list)
