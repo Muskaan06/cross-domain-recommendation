@@ -12,7 +12,7 @@ from nltk.tokenize import word_tokenize
 # nltk.download('wordnet')
 from nltk.corpus import stopwords
 
-with open('genius_api_token.txt') as f:
+with open('connections_and_token.txt') as f:
     GENIUS_API_TOKEN = f.read()
 f.close()
 
