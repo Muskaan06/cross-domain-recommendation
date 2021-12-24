@@ -8,6 +8,7 @@ import clustering
 import cf_model
 import spotify_connect
 
+
 # TODO: - user log in or sign in?
 # - ask new user for genre (3)
 # - show random songs with max matching genre (later on, can rec from top rated matches)
