@@ -6,9 +6,6 @@ from emotion_score import text_emotion
 import re
 import clustering
 import cf_model
-import spotify_connect
-
-
 
 # TODO: - user log in or sign in?
 # - ask new user for genre (3)
