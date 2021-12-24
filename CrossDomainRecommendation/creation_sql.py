@@ -57,6 +57,7 @@ crsr = connection.cursor()
 # Sadness         FLOAT DEFAULT 0.0,
 # Surprise        FLOAT DEFAULT 0.0,
 # Trust           FLOAT DEFAULT 0.0,
+# Tags            VARCHAR(200) DEFAULT,
 # FOREIGN KEY (song_id) REFERENCES song_table(id),
 # PRIMARY KEY (song_id));"""
 # crsr.execute(sql_command)
