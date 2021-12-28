@@ -8,6 +8,8 @@ from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from .tokens import generate_token
+import logging
+log = logging.getLogger(__name__)
 
 
 import sys
@@ -97,9 +99,11 @@ def activate(request, uidb64, token):
         uid = force_str(urlsafe_base64_decode(uidb64))
         myuser = User.objects.get(pk=uid)
     except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+        log.debug("0000000000")
         myuser = None
 
     if myuser is not None and generate_token.check_token(myuser, token):
+        log.debug("111111111")
         myuser.is_active = True
         # user.profile.signup_confirmation = True
         myuser.save()
