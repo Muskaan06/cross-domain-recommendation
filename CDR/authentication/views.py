@@ -27,9 +27,11 @@ def signup(request):
 
         if len(username) > 50:
             messages.error(request, "Username cannot be more than 50 characters long!")
+            return redirect('home')
 
         if pass1 != pass2:
             messages.error(request, "Passwords do not match!")
+            return redirect('home')
 
         if not username.isalnum():
             messages.error(request, "Username must be alpha-numeric!")
@@ -38,7 +40,7 @@ def signup(request):
         myuser = User.objects.create_user(username, None, pass1)
         myuser.first_name = fname
         myuser.last_name = lname
-        myuser.is_active = False
+        # myuser.is_active = False
         myuser.save()
 
         messages.success(request, "Your account has been created successfully!")
