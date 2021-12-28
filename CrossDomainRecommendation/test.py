@@ -4,7 +4,7 @@ import lyrics
 import sqlite3
 from emotion_score import text_emotion
 import re
-import clustering
+from clustering import song_rec
 import cf_model
 
 # TODO: - user log in or sign in?
@@ -92,4 +92,4 @@ cf_list = cf_model.collaborativeFiltering(userId, songName, artistName)
 #         cf_list.append(rec)
 
 
-clustering.song_rec(userId, songName, cf_list)
+song_rec(userId, songName, cf_list)

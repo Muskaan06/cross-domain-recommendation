@@ -12,9 +12,9 @@ from nltk.tokenize import word_tokenize
 # nltk.download('wordnet')
 from nltk.corpus import stopwords
 
-with open('connections_and_token.txt') as f:
-    GENIUS_API_TOKEN = f.read()
-f.close()
+# with open('connections_and_token.txt') as f:
+#     GENIUS_API_TOKEN = f.read()
+# f.close()
 
 
 # scraping the lyrics

@@ -31,7 +31,9 @@ SECRET_KEY = 'django-insecure-==g9=q&xwfv%q-soi&1h335s88dsm6aj1ubn5_km3+&$pec&==
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['django-env.eba-yt29xsfz.us-west-2.elasticbeanstalk.com']
+
+
 
 
 # Application definition
@@ -44,6 +46,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
+
+# AUTHENTICATION_BACKENDS = (
+#     ('django.contrib.auth.backends.ModelBackend'),
+# )
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

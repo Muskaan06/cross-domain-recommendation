@@ -1,22 +1,6 @@
 from sklearn.cluster import KMeans
 import sql
 from k_means_constrained import KMeansConstrained
-# song_emo, song_list = sql.fetch_song_emotion()
-#
-# data = song_emo
-# labels = song_list
-# song_id = 0
-#
-# n_clusters = 15
-# kmeans = KMeans(n_clusters, random_state=0).fit(data)
-#
-# pred_clusters = kmeans.labels_
-# cluster_labels = [[] for i in range(n_clusters)]
-# for i, j in enumerate(pred_clusters):
-#     cluster_labels[j].append(labels[i])
-#
-# trained_data = cluster_labels
-
 
 user_emo, user_list = sql.fetch_user_emotion()
 
