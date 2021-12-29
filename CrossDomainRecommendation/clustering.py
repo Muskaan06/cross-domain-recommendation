@@ -31,7 +31,9 @@ trained_data = cluster_labels
 #     return rec_ids
 #
 #
-def song_rec(userID,songN,rec_ids):
+
+
+def song_rec(userID, songN, rec_ids):
     user_ratings = sql.get_user_ratings(userID)
     song_id = sql.get_song_id(songN)
     for id in rec_ids:

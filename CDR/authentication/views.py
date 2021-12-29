@@ -6,6 +6,8 @@ from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 
 sys.path.append("..")
+
+
 # Create your views here.
 
 
@@ -44,7 +46,10 @@ def signup(request):
         myuser.save()
 
         messages.success(request, "Your account has been created successfully!")
-
+        # TODO: login user here,
+        #  ask for 3 fav genre, show song recs w max matching genres, ask rating, build user emo
+        #  ask for 3 fav songs (optional), rec songs from cluster, ask rating, update user emo
+        #  (make this page and redirect)
         return redirect('signin')
 
     return render(request, 'authentication/signup.html')

@@ -12,7 +12,7 @@ connection = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASS, ho
 
 crsr = connection.cursor()
 
-
+# TODO: change all select executions to crsr.fetchall() like done in fetch_song_genres()
 with connection:
     # # SQL command to insert the data in the table
     def insert_user_emotion(user_id):
@@ -59,6 +59,28 @@ with connection:
         crsr.execute(sql_command, (result, song_id))
         connection.commit()
 
+    def fetch_song_genres():
+        sql_command = """SELECT song_id FROM song_emotion"""
+        # demo2 = crsr.execute(sql_command)
+        # song_list = []
+        #
+        # for row2 in demo2:
+        #     song_list.append((row2[0]))
+        crsr.execute(sql_command)
+        song_list = crsr.fetchall()
+        song_list = [song[0] for song in song_list]
+
+        # song_genre = []
+        sql_command = """SELECT Tags FROM song_emotion"""
+        # demo2 = crsr.execute(sql_command)
+        # for row2 in demo2:
+        #     song_genre.append(list(row2))
+        crsr.execute(sql_command)
+        song_genre = crsr.fetchall()
+        song_genre = [gen[0] for gen in song_genre]
+        song_genre = [gen.split(",") for gen in song_genre]
+
+        return song_genre, song_list
 
     def get_song_emotion(song_id):
         sql_command1 = """SELECT Positive, Negative, Anger, Anticipation, Disgust, Fear, Joy, Sadness, Surprise, Trust FROM song_emotion WHERE song_id=%s;"""

@@ -2,7 +2,8 @@ import random
 
 import numpy as np
 import sql
-from clustering import get_similar_users
+import genre
+# from clustering import get_similar_users
 from sklearn.cluster import KMeans
 from k_means_constrained import KMeansConstrained
 import math
@@ -30,8 +31,8 @@ def collaborativeFiltering(user_name, song_name, artist_name):
     data_len = len(data)
     size_min = 3
     size_max = 8
-    max_cluster = math.floor(data_len/size_min)
-    min_cluster = math.ceil(data_len/size_max)
+    max_cluster = math.floor(data_len / size_min)
+    min_cluster = math.ceil(data_len / size_max)
     n_clusters = random.randint(min_cluster, max_cluster)
     # kmeans = KMeans(n_clusters, random_state=0).fit(data)
     kmeans = KMeansConstrained(n_clusters, size_min=size_min, size_max=size_max, random_state=0)
@@ -78,3 +79,21 @@ def collaborativeFiltering(user_name, song_name, artist_name):
 
 # collaborativeFiltering('amisha', 'yellow', 'coldplay')
 
+def genre_rec(genres):
+    song_genre, song_list = sql.fetch_song_genres()
+    idx_cnt_list = []
+    for i, gen_list in enumerate(song_genre):
+        count = 0
+        for gen in genres:
+            if gen in gen_list:  # if the song has matching tags  TODO: check if word in string? like 'rock' in 'rock and roll'
+                count += 1
+        if count != 0:
+            idx_cnt_list.append([i, count])
+    idx_cnt_list = sorted(idx_cnt_list, key=lambda x: x[1], reverse=True)
+    rec_ids = [x[0] for x in idx_cnt_list]
+    return rec_ids
+
+
+print(genre.get_all_genres())
+
+# print(genre_rec(['guitar', 'pop', 'dance']))
