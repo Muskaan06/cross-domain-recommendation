@@ -2,55 +2,71 @@ from sklearn.model_selection import cross_val_score,train_test_split
 import numpy as np
 import pandas as pd
 from sklearn.ensemble import RandomForestRegressor
-
-# quietly deep-reload tqdm
+from sklearn.model_selection import RandomizedSearchCV
+from pprint import pprint
 
 df = pd.read_csv("merged_file.csv")
 
 y = df.rating
 X = df.drop("rating",axis=1)
 
+#splitting dataset
 X_train, X_test, y_train, y_test = train_test_split(X, y,test_size=0.2)
-# print("\nX_train:\n")
-# print(X_train.head())
-# print(X_train.shape)
-#
-# print("\nX_test:\n")
-# print(X_test.head())
-# print(X_test.shape)
+print("-----train shape-----")
+print(X_train.shape)
+print(y_train.shape)
+print("-----test shape-----")
+print(X_test.shape)
+print(y_test.shape)
 
-#check for any null values
-X_test[X_test.isnull().any(axis=1)]
+#hyperparameter tuning through cross validation
+# Number of trees in random forest
+n_estimators = [int(x) for x in np.linspace(start = 200, stop = 2000, num = 10)]
+# Number of features to consider at every split
+max_features = ['auto', 'sqrt']
+# Maximum number of levels in tree
+max_depth = [int(x) for x in np.linspace(10, 110, num = 11)]
+max_depth.append(None)
+# Minimum number of samples required to split a node
+min_samples_split = [2, 5, 10]
+# Minimum number of samples required at each leaf node
+min_samples_leaf = [1, 2, 4]
+# Method of selecting samples for training each tree
+bootstrap = [True, False]
+# Create the random grid
+random_grid = {'n_estimators': n_estimators,
+               'max_features': max_features,
+               'max_depth': max_depth,
+               'min_samples_split': min_samples_split,
+               'min_samples_leaf': min_samples_leaf,
+               'bootstrap': bootstrap}
+pprint(random_grid)
 
-# #remove null values
-# X_train = X_train.dropna()
+#model training
+rf = RandomForestRegressor(verbose=2)
+# Random search of parameters, using 3 fold cross validation,
+# search across 100 different combinations, and use all available cores
+rf_random = RandomizedSearchCV(estimator = rf, param_distributions = random_grid, n_iter = 50, cv = 3, verbose=2, random_state=42, n_jobs = -1)
+# Fit the random search model
+rf_random.fit(X_train, y_train)
+print(rf_random.best_params_)
 
-# # To reset the indices
-# X_train = X_train.reset_index(drop = True)
+#model evaluation
+def evaluate(model, test_features, test_labels):
+    predictions = model.predict(test_features)
+    errors = abs(predictions - test_labels)
+    mape = 100 * np.mean(errors / test_labels)
+    accuracy = 100 - mape
+    print('Model Performance')
+    print('Average Error: {:0.4f} degrees.'.format(np.mean(errors)))
+    print('Accuracy = {:0.2f}%.'.format(accuracy))
 
-# #remove null values
-# X_test = X_test.dropna()
+    return accuracy
 
-# # To reset the indices
-# X_test = X_test.reset_index(drop = True)
+best_random = rf_random.best_estimator_
+random_accuracy = evaluate(best_random, X_test, y_test)
 
-# create regressor object
-regressor = RandomForestRegressor(max_features='sqrt', n_estimators=20, oob_score=True, verbose=2,random_state=10)
 
-# fit the regressor with x and y data
-regressor.fit(X_train, y_train)
 
-Y_pred = regressor.predict(X_test)
-
-# Calculate the absolute errors
-errors = abs(Y_pred - y_test)
-# Print out the mean absolute error (mae)
-print('Mean Absolute Error:', round(np.mean(errors), 2), 'degrees.')
-
-# Calculate mean absolute percentage error (MAPE)
-mape = 100 * (errors / y_test.shape[0])
-# Calculate and display accuracy
-accuracy = 100 - np.mean(mape)
-print('Accuracy:', round(accuracy, 2), '%.')
 
 
