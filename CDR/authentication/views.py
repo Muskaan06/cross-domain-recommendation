@@ -52,6 +52,7 @@ def signup(request):
         #  (make this page and redirect)
         return redirect('signin')
 
+
     return render(request, 'authentication/signup.html')
 
 
