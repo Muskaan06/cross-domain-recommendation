@@ -1,9 +1,11 @@
-from sklearn.model_selection import cross_val_score,train_test_split
+from sklearn.model_selection import train_test_split
 import numpy as np
 import pandas as pd
 from sklearn.ensemble import RandomForestRegressor
-from sklearn.model_selection import RandomizedSearchCV
+from sklearn.model_selection import GridSearchCV,RandomizedSearchCV
 from pprint import pprint
+from sklearn.metrics import accuracy_score,mean_squared_error,mean_absolute_error
+
 
 df = pd.read_csv("merged_file.csv")
 
@@ -21,7 +23,7 @@ print(y_test.shape)
 
 #hyperparameter tuning through cross validation
 # Number of trees in random forest
-n_estimators = [int(x) for x in np.linspace(start = 200, stop = 2000, num = 10)]
+n_estimators = [int(x) for x in np.linspace(start = 100, stop = 200, num = 5)]
 # Number of features to consider at every split
 max_features = ['auto', 'sqrt']
 # Maximum number of levels in tree
@@ -42,29 +44,26 @@ random_grid = {'n_estimators': n_estimators,
                'bootstrap': bootstrap}
 pprint(random_grid)
 
-#model training
-rf = RandomForestRegressor(verbose=2)
-# Random search of parameters, using 3 fold cross validation,
-# search across 100 different combinations, and use all available cores
-rf_random = RandomizedSearchCV(estimator = rf, param_distributions = random_grid, n_iter = 50, cv = 3, verbose=2, random_state=42, n_jobs = -1)
-# Fit the random search model
+#model training with evaluation
+#random search CV
+rf = RandomForestRegressor(verbose=10)
+rf_random = RandomizedSearchCV(estimator = rf, param_distributions = random_grid, n_iter = 3, cv = 3, verbose=10, random_state=42, n_jobs = -1,scoring='neg_root_mean_squared_error')
 rf_random.fit(X_train, y_train)
 print(rf_random.best_params_)
 
-#model evaluation
-def evaluate(model, test_features, test_labels):
-    predictions = model.predict(test_features)
-    errors = abs(predictions - test_labels)
-    mape = 100 * np.mean(errors / test_labels)
-    accuracy = 100 - mape
-    print('Model Performance')
-    print('Average Error: {:0.4f} degrees.'.format(np.mean(errors)))
-    print('Accuracy = {:0.2f}%.'.format(accuracy))
+#grid search CV
 
-    return accuracy
 
-best_random = rf_random.best_estimator_
-random_accuracy = evaluate(best_random, X_test, y_test)
+#test evaluation
+y_pred = rf_random.predict(X_test)
+print("mean squared error: ",mean_squared_error(y_train,y_pred))
+
+
+
+
+
+
+
 
 
 
