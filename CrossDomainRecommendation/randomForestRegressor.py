@@ -3,8 +3,8 @@ import numpy as np
 import pandas as pd
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import GridSearchCV,RandomizedSearchCV
-from pprint import pprint
 from sklearn.metrics import accuracy_score,mean_squared_error,mean_absolute_error
+import pickle
 
 
 df = pd.read_csv("merged_file.csv")
@@ -42,7 +42,7 @@ random_grid = {'n_estimators': n_estimators,
                'min_samples_split': min_samples_split,
                'min_samples_leaf': min_samples_leaf,
                'bootstrap': bootstrap}
-pprint(random_grid)
+print(random_grid)
 
 #model training with evaluation
 #random search CV
@@ -53,6 +53,11 @@ print(rf_random.best_params_)
 
 #grid search CV
 
+
+
+#save model
+filename = 'finalized_model.sav'
+pickle.dump(rf_random, open(filename, 'wb'))
 
 #test evaluation
 y_pred = rf_random.predict(X_test)
