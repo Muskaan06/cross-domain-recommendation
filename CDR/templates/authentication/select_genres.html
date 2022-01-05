@@ -23,7 +23,7 @@
         var count = 0;
         document.getElementById('generate').onclick = function() {
         count = count + 1;
-    var values = {{genres|safe}};
+    var values = {{genre_list|safe}};
     values.forEach(myFunction);
 
     function myFunction(value, index, array) {
@@ -54,12 +54,12 @@ console.log(count);
     </script>
 
 
-    <form action='/dashboard' method="post">
+    <form action="/select_genres" method="POST">
         {% csrf_token %}
         <div class="mb-3 mt-3">
             <select class="mul-select" id="genre" name="SelGenre"  placeholder="Genres" multiple="true" style="width:100%;" required>
             </select>
-            <input type="hidden" id = "genres" name = "Genres">
+            <input type="hidden" id = "genres" name = "genres">
         </div>
         <script>
                             $(document).ready(function(){
@@ -70,7 +70,7 @@ console.log(count);
                                         tokenSeparators: ['/',',',';'," "]
                                     });
 
-                                var values = {{genres|safe}};
+                                var values = {{genre_list|safe}};
                                 values.forEach(myFunction);
 
                                 function myFunction(value, index, array) {

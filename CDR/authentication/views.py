@@ -1,7 +1,5 @@
 import sys
 
-
-
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
@@ -9,8 +7,6 @@ from django.shortcuts import render, redirect
 
 sys.path.append("..")
 from CrossDomainRecommendation.genre import actual_genres, get_all_genres
-
-
 
 
 # Create your views here.
@@ -58,10 +54,7 @@ def signup(request):
 
         return redirect('signin')
 
-
     return render(request, 'authentication/signup.html')
-
-
 
 
 def signin(request):
@@ -70,12 +63,11 @@ def signin(request):
         pass1 = request.POST['pass1']
 
         user = authenticate(username=username, password=pass1)
-        
+
         if user is not None:
-            if user.last_login == None:
-                #login(request, user)
-                genres = actual_genres()
-                return render(request, "authentication/roughwork.html", {'genres': genres})
+            if user.last_login is None:
+                # login(request, user)
+                return redirect('select_genres')
             else:
                 login(request, user)
                 fname = user.first_name
@@ -84,15 +76,27 @@ def signin(request):
             messages.error(request, "bad credentials!")
             return redirect('home')
 
-
     return render(request, "authentication/signin.html")
 
 
+def select_genres(request):
+    genre_list = actual_genres()
+    if request.method == "POST":
+        genres = request.POST.get('genres')
+        request.session['genres'] = genres
+        return redirect('dashboard')
+
+    return render(request, "authentication/select_genres.html", {'genre_list': genre_list})
+
+
 def dashboard(request):
-    return render(request, "authentication/dashboard.html")
+    genres = request.session.get('genres')
+    return render(request, "authentication/dashboard.html", {'genres': genres})
 
 
 def signout(request):
     logout(request)
     messages.success(request, "Logged out successfully.")
     return redirect('home')
+
+
