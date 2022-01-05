@@ -3,6 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>Rough</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
+
+    <link  rel="stylesheet"href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"></script>
+<!--    <script type="text/javascript">-->
 </head>
 <body>
     <div id="container"></div>
@@ -22,8 +30,8 @@
         value = value.replace(/'/g, '"');
     }
     var select = document.createElement("select");
-    select.name = "pets";
-    select.id = "pets"
+    select.name = "genres";
+    select.id = "genres"
 
     for (const val of values)
     {
@@ -34,8 +42,8 @@
     }
 
     var label = document.createElement("label");
-    label.innerHTML = "Choose your pets: "
-    label.htmlFor = "pets";
+    label.innerHTML = "Choose your genre: "
+    label.htmlFor = "genres";
 
     document.getElementById("container").appendChild(label).appendChild(select);
     if(count > 2){
@@ -43,9 +51,56 @@
     }
 console.log(count);
 }
-
-
-
     </script>
+
+
+    <form action='/dashboard' method="post">
+        {% csrf_token %}
+        <div class="mb-3 mt-3">
+            <select class="mul-select" id="genre" name="SelGenre"  placeholder="Genres" multiple="true" style="width:100%;" required>
+            </select>
+            <input type="hidden" id = "genres" name = "Genres">
+        </div>
+        <script>
+                            $(document).ready(function(){
+                                $(".mul-select").select2({
+                                        placeholder: "Select favourite genres (upto 3 only)", //placeholder
+                                        tags: false,
+  					                    allowClear: true,
+                                        tokenSeparators: ['/',',',';'," "]
+                                    });
+
+                                var values = {{genres|safe}};
+                                values.forEach(myFunction);
+
+                                function myFunction(value, index, array) {
+                                    value = value.replace(/'/g, '"');
+                                }
+                                for (const val of values)
+                                {
+                                    var option = document.createElement("option");
+                                    option.value = val;
+                                    option.text = val.charAt(0).toUpperCase() + val.slice(1);
+                                    genre.appendChild(option);
+                                }
+                                })
+
+                            var last_valid_selection = null;
+                            $('#genre').change(function(){
+                                    $('#genres').val($('#genre').val());
+                                    if ($(this).val().length > 3) {
+                                      $(this).val(last_valid_selection);
+                                    } else {
+                                      last_valid_selection = $(this).val();
+                                    }
+                                })
+                                 $(function(){
+                                    $("#reset").click(function(){
+                                        $("#genre").select2('val', 'All');
+                                    });
+                                });
+                            </script>
+        <button id="submit" type="submit" class="btn btn-primary">Submit</button>
+    </form>
 </body>
 </html>
