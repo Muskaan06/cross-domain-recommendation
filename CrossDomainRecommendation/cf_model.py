@@ -3,7 +3,7 @@ import random
 import numpy as np
 import sql
 import genre
-# from clustering import get_similar_users
+from clustering import get_similar_users
 from sklearn.cluster import KMeans
 from k_means_constrained import KMeansConstrained
 import math
@@ -91,9 +91,10 @@ def genre_rec(genres):
             idx_cnt_list.append([i, count])
     idx_cnt_list = sorted(idx_cnt_list, key=lambda x: x[1], reverse=True)
     rec_ids = [x[0] for x in idx_cnt_list]
+    print(idx_cnt_list)
     return rec_ids
 
 
-print(genre.get_all_genres())
+# print(genre.get_all_genres())
 
-# print(genre_rec(['guitar', 'pop', 'dance']))
+print(genre_rec(['guitar', 'pop', 'dance']))

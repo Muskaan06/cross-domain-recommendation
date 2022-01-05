@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Genre</title>
+</head>
+<body>
+<h1>Select the genres you like</h1>
+<h4>Select upto 3 genres:</h4>
+<!--
+<label for ="genre 1">Genre 1:</label>
+
+<select class="form-select" id="genre 1" name="genre 1" data-live-search="true">
+    <option value="none" selected disabled hidden>Select Genre 1</option>
+    <option value="Pop">Pop</option>
+    <option value="Rock">Rock</option>
+</select>
+
+<label for ="genre 2">Genre 2:</label>
+
+<select class="form-select" id="genre 2" name="genre 2" data-live-search="true">
+    <option value="none" selected disabled hidden>Select Genre 2</option>
+    <option value="Pop">Pop</option>
+    <option value="Rock">Rock</option>
+</select>
+
+<label for ="genre 3">Genre 3:</label>
+
+<select class="form-select" id="genre 3" name="genre 3" data-live-search="true">
+    <option value="none" selected disabled hidden>Select Genre 3</option>
+    <option value="Pop">Pop</option>
+    <option value="Rock">Rock</option>
+</select>
+-->
+<label for ="genre 3">Genre 3:</label>
+<select class="form-select" id="genre 3" name="genre 3" data-live-search="true">
+<script>
+window.onload = function() {
+
+    var values = ["dog", "cat", "parrot", "rabbit"];
+
+    var select = document.createElement("select");
+    select.name = "pets";
+    select.id = ""
+
+    for (const val of values)
+    {
+        var option = document.createElement("option");
+        option.value = val;
+        option.text = val.charAt(0).toUpperCase() + val.slice(1);
+        select.appendChild(option);
+    }
+
+    var label = document.createElement("label");
+    label.innerHTML = "Choose your pets: "
+    label.htmlFor = "pets";
+
+    document.getElementById("container").appendChild(label).appendChild(select);
+}
+</script>
+</body>
+</html>

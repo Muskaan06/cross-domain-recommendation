@@ -1,15 +1,18 @@
 import sys
 
+
+
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 
 sys.path.append("..")
+from CrossDomainRecommendation.genre import actual_genres, get_all_genres
+
 
 
 # Create your views here.
-
 
 def home(request):
     return render(request, "authentication/index.html")
@@ -46,14 +49,17 @@ def signup(request):
         myuser.save()
 
         messages.success(request, "Your account has been created successfully!")
-        # TODO: login user here,
+
+        #  TODO: login user here
         #  ask for 3 fav genre, show song recs w max matching genres, ask rating, build user emo
         #  ask for 3 fav songs (optional), rec songs from cluster, ask rating, update user emo
         #  (make this page and redirect)
+
         return redirect('signin')
 
 
     return render(request, 'authentication/signup.html')
+
 
 
 def signin(request):
@@ -62,14 +68,22 @@ def signin(request):
         pass1 = request.POST['pass1']
 
         user = authenticate(username=username, password=pass1)
-
+    
+    
+        
         if user is not None:
-            login(request, user)
-            fname = user.first_name
-            return render(request, "authentication/index.html", {'fname': fname})
+            if user.last_login == None:
+                #login(request, user)
+                genres = actual_genres()
+                return render(request, "authentication/roughwork.html", {'genres': genres})
+            else:
+                login(request, user)
+                fname = user.first_name
+                return render(request, "authentication/index.html", {'fname': fname})
         else:
             messages.error(request, "bad credentials!")
             return redirect('home')
+
 
     return render(request, "authentication/signin.html")
 

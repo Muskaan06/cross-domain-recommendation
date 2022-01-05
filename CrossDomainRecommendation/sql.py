@@ -5,7 +5,7 @@ DB_USER = 'postgres'
 DB_PASS = 'C3LOKOr9xXgGxs22x3dO'
 
 import psycopg2
-import genre
+from . import genre
 
 connection = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASS, host=DB_HOST, port=5432, sslmode='require')
 
