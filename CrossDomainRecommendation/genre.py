@@ -1,10 +1,13 @@
 import requests
 from bs4 import BeautifulSoup
 import numpy as np
+import os
+import sys
+import json
 
 # song = input("song name: ")
 # artist = input("artist: ")
-from CrossDomainRecommendation import sql
+from . import sql
 
 
 def genre_url(songName, artistName):
@@ -42,3 +45,10 @@ def get_all_genres():
 
 
 # print(get_all_genres([['1', '2'],['3', '4', '1']]))
+
+def actual_genres():
+    my_file = open(os.path.join(sys.path[0], '..', 'CrossDomainRecommendation', "genres.txt"), "r", encoding='iso-8859-1')
+    lines = my_file.read().split('\n')
+    genres = get_all_genres()
+    flist = list(set(lines) & set(genres))
+    return json.dumps(flist)

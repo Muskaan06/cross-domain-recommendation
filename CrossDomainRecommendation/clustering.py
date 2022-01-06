@@ -1,5 +1,5 @@
 from sklearn.cluster import KMeans
-import sql
+from . import sql
 from k_means_constrained import KMeansConstrained
 
 user_emo, user_list = sql.fetch_user_emotion()
@@ -63,21 +63,21 @@ def song_rec(userID, songN, rec_ids):
     # trained_data[x[0]].append(song_id)
 
 
-print(trained_data)
-for d in trained_data:
-    print(len(d))
+# print(trained_data)
+# for d in trained_data:
+#     print(len(d))
 
 
-def get_similar_users(user_id, new_user=False):
-    if new_user:
-        emo_list = sql.get_user_emotion(user_id)
-        x = kmeans.predict([emo_list])
-        rec_ids = trained_data[x[0]]
-    else:
-        for cluster in trained_data:
-            if user_id in cluster:
-                rec_ids = cluster
-    return rec_ids
+# def get_similar_users(user_id, new_user=False):
+#     if new_user:
+#         emo_list = sql.get_user_emotion(user_id)
+#         x = kmeans.predict([emo_list])
+#         rec_ids = trained_data[x[0]]
+#     else:
+#         for cluster in trained_data:
+#             if user_id in cluster:
+#                 rec_ids = cluster
+#     return rec_ids
 
 
 # print(get_similar_users('muskaan06'))

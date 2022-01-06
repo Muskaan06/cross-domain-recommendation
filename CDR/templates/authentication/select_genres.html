@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Rough</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/css/select2.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.0/js/select2.min.js"></script>
+
+    <link  rel="stylesheet"href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"></script>
+<!--    <script type="text/javascript">-->
+</head>
+<body>
+    <div id="container"></div>
+    <br>
+    <form action="/select_genres" method="POST">
+        {% csrf_token %}
+        <div class="mb-3 mt-3">
+            <select class="mul-select" id="genre" name="SelGenre"  placeholder="Genres" multiple="true" style="width:100%;" required>
+            </select>
+            <input type="hidden" id = "genres" name = "genres">
+        </div>
+        <script>
+                            $(document).ready(function(){
+                                $(".mul-select").select2({
+                                        placeholder: "Select favourite genres (upto 3 only)", //placeholder
+                                        tags: false,
+  					                    allowClear: true,
+  					                    maximumSelectionLength: 3,
+                                        tokenSeparators: ['/',',',';'," "]
+                                });
+
+                                var values = {{genre_list|safe}};
+                                values.forEach(myFunction);
+
+                                function myFunction(value, index, array) {
+                                    value = value.replace(/'/g, '"');
+                                }
+                                for (const val of values)
+                                {
+                                    var option = document.createElement("option");
+                                    option.value = val;
+                                    option.text = val.charAt(0).toUpperCase() + val.slice(1);
+                                    genre.appendChild(option);
+                                }
+                                })
+                            $('#genre').change(function(){
+                                    $('#genres').val($('#genre').val());
+                                })
+                            </script>
+        <button id="submit" type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</body>
+</html>

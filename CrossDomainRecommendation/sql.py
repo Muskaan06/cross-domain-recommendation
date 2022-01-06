@@ -5,7 +5,7 @@ DB_USER = 'postgres'
 DB_PASS = 'C3LOKOr9xXgGxs22x3dO'
 
 import psycopg2
-import genre
+from . import genre
 
 connection = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASS, host=DB_HOST, port=5432, sslmode='require')
 
@@ -108,7 +108,8 @@ with connection:
 
     def fetch_user_emotion():
         sql_command = """SELECT id FROM user_emotion"""
-        demo2 = crsr.execute(sql_command)
+        crsr.execute(sql_command)
+        demo2 = crsr.fetchall()
         user_list = []
 
         for row2 in demo2:
@@ -117,7 +118,8 @@ with connection:
         user_emo = []
         sql_command = """SELECT Positive, Negative, Anger, Anticipation, Disgust, Fear, Joy, Sadness, Surprise, Trust 
                          FROM user_emotion"""
-        demo2 = crsr.execute(sql_command)
+        crsr.execute(sql_command)
+        demo2 = crsr.fetchall()
         for row2 in demo2:
             user_emo.append(list(row2))
 
@@ -180,11 +182,13 @@ with connection:
 
     def print_cf_output(int_list):
         sql_command4 = """SELECT song_name,artist_name FROM song_table WHERE id in """ + int_list + ';'
-        sdf = crsr.execute(sql_command4)
-
-        for row in sdf:
-            print(row[0], " by ", row[1])
-
+        crsr.execute(sql_command4)
+        song_list = crsr.fetchall()
+        
+        # for row in sdf:
+        #     print(row[0], " by ", row[1])
+        
+        return song_list
 
     def insert_song_table(song_name, artist_name):
         sql_command = """INSERT INTO song_table (song_name,artist_name) VALUES (%s,%s);"""
@@ -256,9 +260,10 @@ with connection:
 
     def display_song_rec(rec_id):
         sql_command = """SELECT song_name,artist_name FROM song_table WHERE id=%s;"""
-        cursor = crsr.execute(sql_command, (rec_id,))
+        crsr.execute(sql_command, (rec_id,))
+        cursor = crsr.fetchall()
         for row in cursor:
-            print(row)
+            #print(row)
             return row[0]
 
 # To save the changes in the files. Never skip this.
