@@ -15,45 +15,6 @@
 <body>
     <div id="container"></div>
     <br>
-    <div>
-    <button id="generate">Generate</button>
-    </div>
-
-    <script>
-        var count = 0;
-        document.getElementById('generate').onclick = function() {
-        count = count + 1;
-    var values = {{genre_list|safe}};
-    values.forEach(myFunction);
-
-    function myFunction(value, index, array) {
-        value = value.replace(/'/g, '"');
-    }
-    var select = document.createElement("select");
-    select.name = "genres";
-    select.id = "genres"
-
-    for (const val of values)
-    {
-        var option = document.createElement("option");
-        option.value = val;
-        option.text = val.charAt(0).toUpperCase() + val.slice(1);
-        select.appendChild(option);
-    }
-
-    var label = document.createElement("label");
-    label.innerHTML = "Choose your genre: "
-    label.htmlFor = "genres";
-
-    document.getElementById("container").appendChild(label).appendChild(select);
-    if(count > 2){
-        document.getElementById('generate').disabled = true;
-    }
-console.log(count);
-}
-    </script>
-
-
     <form action="/select_genres" method="POST">
         {% csrf_token %}
         <div class="mb-3 mt-3">
@@ -67,8 +28,9 @@ console.log(count);
                                         placeholder: "Select favourite genres (upto 3 only)", //placeholder
                                         tags: false,
   					                    allowClear: true,
+  					                    maximumSelectionLength: 3,
                                         tokenSeparators: ['/',',',';'," "]
-                                    });
+                                });
 
                                 var values = {{genre_list|safe}};
                                 values.forEach(myFunction);
@@ -84,21 +46,9 @@ console.log(count);
                                     genre.appendChild(option);
                                 }
                                 })
-
-                            var last_valid_selection = null;
                             $('#genre').change(function(){
                                     $('#genres').val($('#genre').val());
-                                    if ($(this).val().length > 3) {
-                                      $(this).val(last_valid_selection);
-                                    } else {
-                                      last_valid_selection = $(this).val();
-                                    }
                                 })
-                                 $(function(){
-                                    $("#reset").click(function(){
-                                        $("#genre").select2('val', 'All');
-                                    });
-                                });
                             </script>
         <button id="submit" type="submit" class="btn btn-primary">Submit</button>
     </form>

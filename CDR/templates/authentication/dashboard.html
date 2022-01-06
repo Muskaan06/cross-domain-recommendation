@@ -6,6 +6,170 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-<h1>User Dashboard -- {{genres|safe}}</h1>
-</body>
+    <h1>User Dashboard</h1><br><br>
+    <h5>{{song_list|safe}}</h5>
+    <h3>Recommended Songs</h3>
+    <div id="1"></div>
+    <input id="rating1" type="range" min="0" max="10" value="5">
+    <p>Value: <span id="demo1"></span></p>
+    <script>
+    var slider1 = document.getElementById("rating1");
+    var output1 = document.getElementById("demo1");
+    output1.innerHTML = slider1.value;
+
+    slider1.oninput = function() {
+        output1.innerHTML = this.value;
+    }
+    </script>
+
+    <div id="2"></div>
+    <input id="rating2" type="range" min="0" max="10" value="5">
+    <p>Value: <span id="demo2"></span></p>
+    <script>
+    var slider2 = document.getElementById("rating2");
+    var output2 = document.getElementById("demo2");
+    output2.innerHTML = slider2.value;
+
+    slider2.oninput = function() {
+        output2.innerHTML = this.value;
+    }
+    </script>
+
+    <div id="3"></div>
+    <input id="rating3" type="range" min="0" max="10" value="5">
+    <p>Value: <span id="demo3"></span></p>
+    <script>
+    var slider3 = document.getElementById("rating3");
+    var output3 = document.getElementById("demo3");
+    output3.innerHTML = slider3.value;
+
+    slider3.oninput = function() {
+        output3.innerHTML = this.value;
+    }
+    </script>
+
+    <div id="4"></div>
+<input id="rating4" type="range" min="0" max="10" value="5">
+    <p>Value: <span id="demo4"></span></p>
+    <script>
+    var slider4 = document.getElementById("rating4");
+    var output4 = document.getElementById("demo4");
+    output4.innerHTML = slider4.value;
+
+    slider4.oninput = function() {
+        output4.innerHTML = this.value;
+    }
+    </script>
+
+    <div id="5"></div>
+<input id="rating5" type="range" min="0" max="10" value="5">
+    <p>Value: <span id="demo5"></span></p>
+    <script>
+    var slider5 = document.getElementById("rating5");
+    var output5 = document.getElementById("demo5");
+    output5.innerHTML = slider5.value;
+
+    slider5.oninput = function() {
+        output5.innerHTML = this.value;
+    }
+    </script>
+
+    <div id="6"></div>
+<input id="rating6" type="range" min="0" max="10" value="5">
+    <p>Value: <span id="demo6"></span></p>
+    <script>
+    var slider6 = document.getElementById("rating6");
+    var output6 = document.getElementById("demo6");
+    output6.innerHTML = slider6.value;
+
+    slider6.oninput = function() {
+        output6.innerHTML = this.value;
+    }
+    </script>
+
+    <div id="7"></div>
+<input id="rating7" type="range" min="0" max="10" value="5">
+    <p>Value: <span id="demo7"></span></p>
+    <script>
+    var slider7 = document.getElementById("rating7");
+    var output7 = document.getElementById("demo7");
+    output7.innerHTML = slider7.value;
+
+    slider7.oninput = function() {
+        output7.innerHTML = this.value;
+    }
+    </script>
+
+    <div id="8"></div>
+<input id="rating8" type="range" min="0" max="10" value="5">
+    <p>Value: <span id="demo8"></span></p>
+    <script>
+    var slider8 = document.getElementById("rating8");
+    var output8 = document.getElementById("demo8");
+    output8.innerHTML = slider8.value;
+
+    slider8.oninput = function() {
+        output8.innerHTML = this.value;
+    }
+    </script>
+
+    <div id="9"></div>
+<input id="rating9" type="range" min="0" max="10" value="5">
+    <p>Value: <span id="demo9"></span></p>
+    <script>
+    var slider9 = document.getElementById("rating9");
+    var output9 = document.getElementById("demo9");
+    output9.innerHTML = slider9.value;
+
+    slider9.oninput = function() {
+        output9.innerHTML = this.value;
+    }
+    </script>
+
+    <div id="10"></div>
+<input id="rating10" type="range" min="0" max="10" value="5">
+    <p>Value: <span id="demo10"></span></p>
+    <script>
+    var slider10 = document.getElementById("rating10");
+    var output10 = document.getElementById("demo10");
+    output10.innerHTML = slider10.value;
+
+    slider10.oninput = function() {
+        output10.innerHTML = this.value;
+    }
+    </script>
+    <button onclick="function1()">
+        clickme
+    </button>
+    <div id="rating"></div>
+    <script>
+        var list1 = {{song_list|safe}};
+        console.log(list1);
+        var id = 0;
+        var pos = 0;
+        for(id=1;id<=10;id++)
+        {
+
+            document.getElementById(id).innerHTML = list1[id-1];
+
+        }
+    </script>
+    <script>
+        function function1(){
+        var list2 = [];
+        var id = 0;
+        var i = 0;
+        var text1 = "rating";
+        for(id=1;id<=10;id++)
+        {
+            i = text1.concat(id);
+            list2.push(document.getElementById(i).value);
+        }
+
+        console.log(list2);
+        document.getElementById("rating").innerHTML = list2;
+        console.log(list2);
+        }
+    </script>
+    </body>
 </html>
