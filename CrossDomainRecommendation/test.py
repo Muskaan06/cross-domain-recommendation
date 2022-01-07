@@ -2,6 +2,8 @@ import sql
 import input_model
 import lyrics
 import sqlite3
+
+from CrossDomainRecommendation import genre
 from emotion_score import text_emotion
 import re
 from clustering import song_rec
@@ -76,7 +78,8 @@ lyr_lis = lyrics.clean_song(lyr)
 # calculate emotion score
 em_lis = text_emotion(lyr_lis)
 try:
-    sql.insert_song_emotion(songName, artistName, em_lis)
+    tags = genre.get_genre(songName, artistName)
+    sql.insert_song_emotion(songName, artistName, em_lis, tags)
 except sqlite3.IntegrityError:
     print("emotion score already exists! ")
 

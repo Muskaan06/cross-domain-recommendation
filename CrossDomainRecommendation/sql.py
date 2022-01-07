@@ -5,7 +5,6 @@ DB_USER = 'postgres'
 DB_PASS = 'C3LOKOr9xXgGxs22x3dO'
 
 import psycopg2
-from . import genre
 
 connection = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASS, host=DB_HOST, port=5432, sslmode='require')
 
@@ -48,9 +47,7 @@ with connection:
         connection.commit()
 
 
-    def update_song_genre(songN, artist):
-        tags = genre.get_genre(songN, artist)
-        print(tags)
+    def update_song_genre(songN, artist, tags):
         result = ','.join(tag for tag in tags)
         song_id = get_song_id_input(songN, artist)
         sql_command = '''UPDATE song_emotion
@@ -226,7 +223,7 @@ with connection:
         connection.commit()
 
 
-    def insert_song_emotion(songN, artist, emo_lis):
+    def insert_song_emotion(songN, artist, emo_lis, tags):
 
         sql_command = """SELECT id FROM song_table WHERE song_name=%s AND artist_name=%s;"""
         crsr.execute("ROLLBACK")
@@ -236,7 +233,6 @@ with connection:
         for row in abc:
             songId = row[0]
         print('SONG_ID----->',songId)
-        tags = genre.get_genre(songN, artist)
         result = ','.join(tag for tag in tags)
         sql_command = """INSERT INTO song_emotion VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);"""
         crsr.execute(sql_command, (

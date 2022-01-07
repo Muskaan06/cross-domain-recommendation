@@ -2,7 +2,7 @@ import psycopg2
 import pandas as pd
 import input_model
 import sql
-from CrossDomainRecommendation import lyrics
+from CrossDomainRecommendation import lyrics, genre
 from CrossDomainRecommendation.emotion_score import text_emotion
 
 df = pd.read_csv(r"../dataset/songlist.csv", index_col=False, encoding='iso-8859-1')
@@ -34,6 +34,7 @@ for row in df.iterrows():
         em_lis = text_emotion(lyr_lis)
         print(em_lis)
         try:
-            sql.insert_song_emotion(songName, artistName, em_lis)
+            tags = genre.get_genre(songName, artistName)
+            sql.insert_song_emotion(songName, artistName, em_lis, tags)
         except psycopg2.IntegrityError:
             print("emotion score already exists! ")
