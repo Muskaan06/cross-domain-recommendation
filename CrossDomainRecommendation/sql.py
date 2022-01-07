@@ -264,7 +264,7 @@ with connection:
         cursor = crsr.fetchall()
         for row in cursor:
             #print(row)
-            return row[0]
+            return row
 
 # To save the changes in the files. Never skip this.
 # If we skip this, nothing will be saved in the database.

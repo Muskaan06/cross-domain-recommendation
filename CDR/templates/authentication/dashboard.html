@@ -8,9 +8,14 @@
 <body>
     <h1>User Dashboard</h1><br><br>
     <h5>{{song_list|safe}}</h5>
+    <h5>{{track_ids|safe}}</h5>
     <h3>Recommended Songs</h3>
+
+    <form action="/dashboard" method="POST">
+        {% csrf_token %}
     <div id="1"></div>
-    <input id="rating1" type="range" min="0" max="10" value="5">
+    <input id="rating1" name="rating1" type="range" min="0" max="10" value="5">
+    <iframe id="myframe1" src="" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
     <p>Value: <span id="demo1"></span></p>
     <script>
     var slider1 = document.getElementById("rating1");
@@ -20,10 +25,21 @@
     slider1.oninput = function() {
         output1.innerHTML = this.value;
     }
+    track_list = {{track_ids|safe}}
+    var i = 0;
+    window.onload = function() {
+    for(i=1; i<=10; i++){
+        var iframeid = "myframe"+i
+      var url = "https://open.spotify.com/embed/track/" + track_list[i-1];
+        document.getElementById(iframeid).setAttribute("src", url);
+        console.log(url)
+     }
+    }
     </script>
 
     <div id="2"></div>
-    <input id="rating2" type="range" min="0" max="10" value="5">
+    <input id="rating2" name="rating2" type="range" min="0" max="10" value="5">
+    <iframe id="myframe2" src="" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
     <p>Value: <span id="demo2"></span></p>
     <script>
     var slider2 = document.getElementById("rating2");
@@ -36,7 +52,8 @@
     </script>
 
     <div id="3"></div>
-    <input id="rating3" type="range" min="0" max="10" value="5">
+    <input id="rating3" name="rating3" type="range" min="0" max="10" value="5">
+    <iframe id="myframe3" src="" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
     <p>Value: <span id="demo3"></span></p>
     <script>
     var slider3 = document.getElementById("rating3");
@@ -49,7 +66,8 @@
     </script>
 
     <div id="4"></div>
-<input id="rating4" type="range" min="0" max="10" value="5">
+<input id="rating4" name="rating4" type="range" min="0" max="10" value="5">
+    <iframe id="myframe4" src="" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
     <p>Value: <span id="demo4"></span></p>
     <script>
     var slider4 = document.getElementById("rating4");
@@ -62,7 +80,8 @@
     </script>
 
     <div id="5"></div>
-<input id="rating5" type="range" min="0" max="10" value="5">
+<input id="rating5" name="rating5" type="range" min="0" max="10" value="5">
+    <iframe id="myframe5" src="" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
     <p>Value: <span id="demo5"></span></p>
     <script>
     var slider5 = document.getElementById("rating5");
@@ -75,7 +94,8 @@
     </script>
 
     <div id="6"></div>
-<input id="rating6" type="range" min="0" max="10" value="5">
+<input id="rating6" name="rating6" type="range" min="0" max="10" value="5">
+    <iframe id="myframe6" src="" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
     <p>Value: <span id="demo6"></span></p>
     <script>
     var slider6 = document.getElementById("rating6");
@@ -88,7 +108,8 @@
     </script>
 
     <div id="7"></div>
-<input id="rating7" type="range" min="0" max="10" value="5">
+<input id="rating7" name="rating7" type="range" min="0" max="10" value="5">
+    <iframe id="myframe7" src="" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
     <p>Value: <span id="demo7"></span></p>
     <script>
     var slider7 = document.getElementById("rating7");
@@ -101,7 +122,8 @@
     </script>
 
     <div id="8"></div>
-<input id="rating8" type="range" min="0" max="10" value="5">
+<input id="rating8" name="rating8" type="range" min="0" max="10" value="5">
+    <iframe id="myframe8" src="" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
     <p>Value: <span id="demo8"></span></p>
     <script>
     var slider8 = document.getElementById("rating8");
@@ -114,7 +136,8 @@
     </script>
 
     <div id="9"></div>
-<input id="rating9" type="range" min="0" max="10" value="5">
+<input id="rating9" name="rating9" type="range" min="0" max="10" value="5">
+    <iframe id="myframe9" src="" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
     <p>Value: <span id="demo9"></span></p>
     <script>
     var slider9 = document.getElementById("rating9");
@@ -127,7 +150,8 @@
     </script>
 
     <div id="10"></div>
-<input id="rating10" type="range" min="0" max="10" value="5">
+<input id="rating10" name="rating10" type="range" min="0" max="10" value="5">
+    <iframe id="myframe10" src="" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
     <p>Value: <span id="demo10"></span></p>
     <script>
     var slider10 = document.getElementById("rating10");
@@ -138,7 +162,7 @@
         output10.innerHTML = this.value;
     }
     </script>
-    <button onclick="function1()">
+    <button type="submit">
         clickme
     </button>
     <div id="rating"></div>
@@ -171,5 +195,6 @@
         console.log(list2);
         }
     </script>
+    </form>
     </body>
 </html>
