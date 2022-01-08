@@ -90,7 +90,6 @@ def select_genres(request):
 
     return render(request, "authentication/select_genres.html", {'genre_list': genre_list})
 
-
 def dashboard(request):
     genres = request.session.get('genres')
     rec = genre_rec(genres)

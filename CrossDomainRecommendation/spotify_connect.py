@@ -56,8 +56,8 @@ token = r.json()['access_token']
 
 # Step 2 - Use Access Token to call search endpoint
 def get_track_id(title,artist):
-    # title = title.replace(" ", "%20")
-    # artist = artist.replace(" ", "%20")
+    title = title.replace("'", " ")
+    artist = artist.replace("'", " ")
     title = urllib.parse.quote_plus(title)
     artist = urllib.parse.quote_plus(artist)
     query = 'track%3A'+title+'%20artist%3A%20'+artist+'&type=track&limit=1'
