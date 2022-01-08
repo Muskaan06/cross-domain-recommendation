@@ -42,11 +42,14 @@
             iframe.allow="encrypted-media";
             document.getElementById("form").appendChild(iframe);
 
+
             var span = document.createElement("span");
             span.id="demo"+i;
             span.value="5";
             document.getElementById("form").appendChild(span);
 
+            var br = document.createElement("br");
+            document.getElementById("form").appendChild(br);
 
             var script = document.createElement("script");
             rating = "rating" + i;
