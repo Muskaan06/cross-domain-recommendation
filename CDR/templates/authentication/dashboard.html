@@ -11,157 +11,60 @@
     <h5>{{track_ids|safe}}</h5>
     <h3>Recommended Songs</h3>
 
-    <form action="/dashboard" method="POST">
+    <form id="form" action="/dashboard" method="POST">
         {% csrf_token %}
-    <div id="1"></div>
-    <input id="rating1" name="rating1" type="range" min="0" max="10" value="5">
-    <iframe id="myframe1" src="" width="300" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
-    <p>Value: <span id="demo1"></span></p>
-    <script>
-    var slider1 = document.getElementById("rating1");
-    var output1 = document.getElementById("demo1");
-    output1.innerHTML = slider1.value;
+        <script>
+            track_list = {{track_ids|safe}}
+            window.onload = function() {
 
-    slider1.oninput = function() {
-        output1.innerHTML = this.value;
-    }
-    track_list = {{track_ids|safe}}
-    var i = 0;
-    window.onload = function() {
-    for(i=1; i<=10; i++){
-        var iframeid = "myframe"+i
-      var url = "https://open.spotify.com/embed/track/" + track_list[i-1];
-        document.getElementById(iframeid).setAttribute("src", url);
-        console.log(url)
-     }
-    }
-    </script>
+        var i = 0;
+        var len = track_list.length;
+        var slider_list = [];
+        var output_list = [];
+        for(i=1; i<=len; i++){
 
-    <div id="2"></div>
-    <input id="rating2" name="rating2" type="range" min="0" max="10" value="5">
-    <iframe id="myframe2" src="" width="300" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
-    <p>Value: <span id="demo2"></span></p>
-    <script>
-    var slider2 = document.getElementById("rating2");
-    var output2 = document.getElementById("demo2");
-    output2.innerHTML = slider2.value;
+            var input = document.createElement("input");
+            input.id= "rating"+i;
+            input.name = "rating"+i;
+            input.type="range";
+            input.min="0";
+            input.max="10";
+            input.value="5";
+            document.getElementById("form").appendChild(input);
 
-    slider2.oninput = function() {
-        output2.innerHTML = this.value;
-    }
-    </script>
+            var iframe = document.createElement("iframe");
+            iframe.id="myframe"+i;
+            iframe.src="https://open.spotify.com/embed/track/" + track_list[i-1];
+            iframe.width="300";
+            iframe.height="80";
+            iframe.frameborder="0";
+            iframe.allowtransparency="true";
+            iframe.allow="encrypted-media";
+            document.getElementById("form").appendChild(iframe);
 
-    <div id="3"></div>
-    <input id="rating3" name="rating3" type="range" min="0" max="10" value="5">
-    <iframe id="myframe3" src="" width="300" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
-    <p>Value: <span id="demo3"></span></p>
-    <script>
-    var slider3 = document.getElementById("rating3");
-    var output3 = document.getElementById("demo3");
-    output3.innerHTML = slider3.value;
+            var span = document.createElement("span");
+            span.id="demo"+i;
+            span.value="5";
+            document.getElementById("form").appendChild(span);
 
-    slider3.oninput = function() {
-        output3.innerHTML = this.value;
-    }
-    </script>
 
-    <div id="4"></div>
-<input id="rating4" name="rating4" type="range" min="0" max="10" value="5">
-    <iframe id="myframe4" src="" width="300" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
-    <p>Value: <span id="demo4"></span></p>
-    <script>
-    var slider4 = document.getElementById("rating4");
-    var output4 = document.getElementById("demo4");
-    output4.innerHTML = slider4.value;
+            var script = document.createElement("script");
+            rating = "rating" + i;
+            demo = "demo" + i;
+            data =     "var slider"+i+" = document.getElementById(\""+rating+"\");"+
+                        "var output"+i+" = document.getElementById(\""+demo+"\");"+
+                        "output"+i+".innerHTML = slider"+i+".value;"+
 
-    slider4.oninput = function() {
-        output4.innerHTML = this.value;
-    }
-    </script>
+                        "slider"+i+".oninput = function() {"+
+                            "output"+i+".innerHTML = this.value;"+
+                        "}";
+            script.innerHTML = data;
+            document.getElementById("form").appendChild(script);
 
-    <div id="5"></div>
-<input id="rating5" name="rating5" type="range" min="0" max="10" value="5">
-    <iframe id="myframe5" src="" width="300" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
-    <p>Value: <span id="demo5"></span></p>
-    <script>
-    var slider5 = document.getElementById("rating5");
-    var output5 = document.getElementById("demo5");
-    output5.innerHTML = slider5.value;
 
-    slider5.oninput = function() {
-        output5.innerHTML = this.value;
-    }
-    </script>
-
-    <div id="6"></div>
-<input id="rating6" name="rating6" type="range" min="0" max="10" value="5">
-    <iframe id="myframe6" src="" width="300" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
-    <p>Value: <span id="demo6"></span></p>
-    <script>
-    var slider6 = document.getElementById("rating6");
-    var output6 = document.getElementById("demo6");
-    output6.innerHTML = slider6.value;
-
-    slider6.oninput = function() {
-        output6.innerHTML = this.value;
-    }
-    </script>
-
-    <div id="7"></div>
-<input id="rating7" name="rating7" type="range" min="0" max="10" value="5">
-    <iframe id="myframe7" src="" width="300" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
-    <p>Value: <span id="demo7"></span></p>
-    <script>
-    var slider7 = document.getElementById("rating7");
-    var output7 = document.getElementById("demo7");
-    output7.innerHTML = slider7.value;
-
-    slider7.oninput = function() {
-        output7.innerHTML = this.value;
-    }
-    </script>
-
-    <div id="8"></div>
-<input id="rating8" name="rating8" type="range" min="0" max="10" value="5">
-    <iframe id="myframe8" src="" width="300" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
-    <p>Value: <span id="demo8"></span></p>
-    <script>
-    var slider8 = document.getElementById("rating8");
-    var output8 = document.getElementById("demo8");
-    output8.innerHTML = slider8.value;
-
-    slider8.oninput = function() {
-        output8.innerHTML = this.value;
-    }
-    </script>
-
-    <div id="9"></div>
-<input id="rating9" name="rating9" type="range" min="0" max="10" value="5">
-    <iframe id="myframe9" src="" width="300" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
-    <p>Value: <span id="demo9"></span></p>
-    <script>
-    var slider9 = document.getElementById("rating9");
-    var output9 = document.getElementById("demo9");
-    output9.innerHTML = slider9.value;
-
-    slider9.oninput = function() {
-        output9.innerHTML = this.value;
-    }
-    </script>
-
-    <div id="10"></div>
-<input id="rating10" name="rating10" type="range" min="0" max="10" value="5">
-    <iframe id="myframe10" src="" width="300" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
-    <p>Value: <span id="demo10"></span></p>
-    <script>
-    var slider10 = document.getElementById("rating10");
-    var output10 = document.getElementById("demo10");
-    output10.innerHTML = slider10.value;
-
-    slider10.oninput = function() {
-        output10.innerHTML = this.value;
-    }
-    </script>
+        }
+}
+        </script>
     <button type="submit">
         clickme
     </button>
