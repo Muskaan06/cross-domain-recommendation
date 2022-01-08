@@ -34,6 +34,9 @@ import base64
 import json
 import urllib.parse
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Step 1 - Authorization
 url = "https://accounts.spotify.com/api/token"
@@ -41,8 +44,8 @@ headers = {}
 data = {}
 
 
-clientId = os.environ['CLIENTID']
-clientSecret = os.environ['CLIENTSECRET']
+clientId = os.getenv('CLIENTID')
+clientSecret = os.getenv('CLIENTSECRET')
 # Encode as Base64
 message = f"{clientId}:{clientSecret}"
 messageBytes = message.encode('ascii')
