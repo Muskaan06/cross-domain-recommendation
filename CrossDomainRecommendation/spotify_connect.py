@@ -33,13 +33,16 @@ import requests
 import base64
 import json
 import urllib.parse
-from CrossDomainRecommendation.secrets import *
+import os
 
 # Step 1 - Authorization
 url = "https://accounts.spotify.com/api/token"
 headers = {}
 data = {}
 
+
+clientId = os.environ['CLIENTID']
+clientSecret = os.environ['CLIENTSECRET']
 # Encode as Base64
 message = f"{clientId}:{clientSecret}"
 messageBytes = message.encode('ascii')
@@ -53,7 +56,6 @@ data['grant_type'] = "client_credentials"
 r = requests.post(url, headers=headers, data=data)
 
 token = r.json()['access_token']
-
 # Step 2 - Use Access Token to call search endpoint
 def get_track_id(title,artist):
     title = title.replace("'", " ")
