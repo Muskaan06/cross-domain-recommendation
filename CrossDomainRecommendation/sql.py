@@ -1,13 +1,16 @@
-
-DB_HOST = 'songuser-db.cwvddet8zv5c.us-east-1.rds.amazonaws.com'
-DB_NAME = 'SongUser'
-DB_USER = 'postgres'
-DB_PASS = 'C3LOKOr9xXgGxs22x3dO'
-
+import os
 import psycopg2
+from dotenv import load_dotenv
 
-connection = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASS, host=DB_HOST, port=5432, sslmode='require')
+load_dotenv()
 
+DB_HOST = os.getenv('DB_HOST')
+DB_NAME = os.getenv('DB_NAME')
+DB_USER = os.getenv('DB_USER')
+DB_PASS = os.getenv('DB_PASS')
+
+connection = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASS, host=DB_HOST, port=5432,
+                              sslmode='require')
 
 crsr = connection.cursor()
 
@@ -56,6 +59,7 @@ with connection:
         crsr.execute(sql_command, (result, song_id))
         connection.commit()
 
+
     def fetch_song_genres():
         sql_command = """SELECT song_id FROM song_emotion"""
         # demo2 = crsr.execute(sql_command)
@@ -78,6 +82,7 @@ with connection:
         song_genre = [gen.split(",") for gen in song_genre]
 
         return song_genre, song_list
+
 
     def get_song_emotion(song_id):
         sql_command1 = """SELECT Positive, Negative, Anger, Anticipation, Disgust, Fear, Joy, Sadness, Surprise, Trust FROM song_emotion WHERE song_id=%s;"""
@@ -181,11 +186,12 @@ with connection:
         sql_command4 = """SELECT song_name,artist_name FROM song_table WHERE id in """ + int_list + ';'
         crsr.execute(sql_command4)
         song_list = crsr.fetchall()
-        
+
         # for row in sdf:
         #     print(row[0], " by ", row[1])
-        
+
         return song_list
+
 
     def insert_song_table(song_name, artist_name):
         sql_command = """INSERT INTO song_table (song_name,artist_name) VALUES (%s,%s);"""
@@ -232,7 +238,7 @@ with connection:
         abc = crsr.fetchall()
         for row in abc:
             songId = row[0]
-        print('SONG_ID----->',songId)
+        print('SONG_ID----->', songId)
         result = ','.join(tag for tag in tags)
         sql_command = """INSERT INTO song_emotion VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);"""
         crsr.execute(sql_command, (
@@ -259,9 +265,8 @@ with connection:
         crsr.execute(sql_command, (rec_id,))
         cursor = crsr.fetchall()
         for row in cursor:
-            #print(row)
+            # print(row)
             return row
 
 # To save the changes in the files. Never skip this.
 # If we skip this, nothing will be saved in the database.
-
