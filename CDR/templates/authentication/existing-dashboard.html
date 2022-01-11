@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+    <h1>Existing user Dashboard</h1><br><br>
+    <h5>{{song_list|safe}}</h5>
+    <h5>{{track_ids|safe}}</h5>
+    <h3>Recommended Songs</h3>
+
+    <form id="form" action="/existing-dashboard" method="POST">
+        {% csrf_token %}
+        <script>
+            track_list = {{track_ids|safe}}
+            window.onload = function() {
+
+        var i = 0;
+        var len = track_list.length;
+        var slider_list = [];
+        var output_list = [];
+        for(i=1; i<=len; i++){
+
+            var input = document.createElement("input");
+            input.id= "rating"+i;
+            input.name = "rating"+i;
+            input.type="range";
+            input.min="0";
+            input.max="10";
+            input.value="5";
+            document.getElementById("form").appendChild(input);
+
+            var iframe = document.createElement("iframe");
+            iframe.id="myframe"+i;
+            iframe.src="https://open.spotify.com/embed/track/" + track_list[i-1];
+            iframe.width="300";
+            iframe.height="80";
+            iframe.frameborder="0";
+            iframe.allowtransparency="true";
+            iframe.allow="encrypted-media";
+            document.getElementById("form").appendChild(iframe);
+
+
+            var span = document.createElement("span");
+            span.id="demo"+i;
+            span.value="5";
+            document.getElementById("form").appendChild(span);
+
+            var br = document.createElement("br");
+            document.getElementById("form").appendChild(br);
+
+            var script = document.createElement("script");
+            rating = "rating" + i;
+            demo = "demo" + i;
+            data =     "var slider"+i+" = document.getElementById(\""+rating+"\");"+
+                        "var output"+i+" = document.getElementById(\""+demo+"\");"+
+                        "output"+i+".innerHTML = slider"+i+".value;"+
+
+                        "slider"+i+".oninput = function() {"+
+                            "output"+i+".innerHTML = this.value;"+
+                        "}";
+            script.innerHTML = data;
+            document.getElementById("form").appendChild(script);
+
+
+        }
+}
+        </script>
+        <button type="submit">clickme</button>
+    </form>
+</body>
+</html>
