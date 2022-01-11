@@ -1,4 +1,5 @@
 import sql
+import genre
 
 rows = sql.get_song_table()
 
@@ -12,5 +13,6 @@ for row in rows:
 for song in song_list:
     song_name = song[0]
     artist_name = song[1]
-    sql.update_song_genre(song_name, artist_name)
+    tags = genre.get_genre(song_name, artist_name)
+    sql.update_song_genre(song_name, artist_name, tags)
 

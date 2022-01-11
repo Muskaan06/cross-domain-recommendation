@@ -6,12 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-    <h1>User Dashboard</h1><br><br>
+    <h1>Existing user Dashboard</h1><br><br>
     <h5>{{song_list|safe}}</h5>
     <h5>{{track_ids|safe}}</h5>
     <h3>Recommended Songs</h3>
 
-    <form id="form" action="/dashboard" method="POST">
+    <form id="form" action="/existing-dashboard" method="POST">
         {% csrf_token %}
         <script>
             track_list = {{track_ids|safe}}
@@ -68,39 +68,7 @@
         }
 }
         </script>
-    <button type="submit">
-        clickme
-    </button>
-    <div id="rating"></div>
-    <script>
-        var list1 = {{song_list|safe}};
-        console.log(list1);
-        var id = 0;
-        var pos = 0;
-        for(id=1;id<=10;id++)
-        {
-
-            document.getElementById(id).innerHTML = list1[id-1];
-
-        }
-    </script>
-    <script>
-        function function1(){
-        var list2 = [];
-        var id = 0;
-        var i = 0;
-        var text1 = "rating";
-        for(id=1;id<=10;id++)
-        {
-            i = text1.concat(id);
-            list2.push(document.getElementById(i).value);
-        }
-
-        console.log(list2);
-        document.getElementById("rating").innerHTML = list2;
-        console.log(list2);
-        }
-    </script>
+        <button type="submit">clickme</button>
     </form>
-    </body>
+</body>
 </html>

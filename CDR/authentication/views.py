@@ -10,7 +10,9 @@ sys.path.append("..")
 from CrossDomainRecommendation.genre import actual_genres, get_all_genres
 from CrossDomainRecommendation.cf_model import genre_rec
 from CrossDomainRecommendation.sql import display_song_rec
+from CrossDomainRecommendation.spotify_connect import get_track_id
 # Create your views here.
+
 
 def home(request):
     return render(request, "authentication/index.html")
@@ -55,6 +57,7 @@ def signup(request):
 
     return render(request, 'authentication/signup.html')
 
+
 def signin(request):
     if request.method == "POST":
         username = request.POST['username']
@@ -76,6 +79,7 @@ def signin(request):
 
     return render(request, "authentication/signin.html")
 
+
 def select_genres(request):
     genre_list = actual_genres()
     if request.method == "POST":
@@ -92,14 +96,35 @@ def dashboard(request):
     song_list = []
     for recid in rec:
         song_list.append(display_song_rec(recid))
+
+    track_ids=[]
+    for track in song_list:
+        song = get_track_id(track[0], track[1])
+        # while song is None:
+        #     song = get_track_id(track[0], track[1])
+
+        track_ids.append(song)
+
     song_list = json.dumps(song_list)
-    return render(request, "authentication/dashboard.html", {'song_list': song_list})
+    track_ids = json.dumps(track_ids)
+
+    ratings=[]
+    if request.method == "POST":
+        for i in range(10):
+            id = 'rating'+str(i+1)
+            ratings.append(request.POST.get(id))
+        # rating1 = request.POST.get('rating1')
+    print("------", ratings)
+    request.session['ratings'] = ratings
+
+    return render(request, "authentication/dashboard.html", {'song_list': song_list, 'track_ids': track_ids})
 
 
 def signout(request):
     logout(request)
     messages.success(request, "Logged out successfully.")
     return redirect('home')
+
 
 
 
