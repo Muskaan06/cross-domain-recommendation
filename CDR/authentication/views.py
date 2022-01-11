@@ -8,9 +8,11 @@ from django.shortcuts import render, redirect
 
 sys.path.append("..")
 from CrossDomainRecommendation.genre import actual_genres, get_all_genres
-from CrossDomainRecommendation.cf_model import genre_rec
+from CrossDomainRecommendation.cf_model import genre_rec, collaborativeFiltering
 from CrossDomainRecommendation.sql import display_song_rec
 from CrossDomainRecommendation.spotify_connect import get_track_id
+from CrossDomainRecommendation.clustering import song_rec_new
+
 # Create your views here.
 
 
@@ -61,13 +63,14 @@ def signup(request):
 def signin(request):
     if request.method == "POST":
         username = request.POST['username']
+        request.session['username'] = username
         pass1 = request.POST['pass1']
 
         user = authenticate(username=username, password=pass1)
 
         if user is not None:
             if user.last_login is None:
-                # login(request, user)
+                login(request, user)
                 return redirect('select_genres')
             else:
                 login(request, user)
@@ -86,11 +89,12 @@ def select_genres(request):
         genres = request.POST.get('genres')
         genres = genres.split(',')
         request.session['genres'] = genres
-        return redirect('dashboard')
+        return redirect('new_recommendation')
 
     return render(request, "authentication/select_genres.html", {'genre_list': genre_list})
 
-def dashboard(request):
+def new_recommendation(request):
+    username = request.session.get('username')
     genres = request.session.get('genres')
     rec = genre_rec(genres)
     song_list = []
@@ -113,11 +117,14 @@ def dashboard(request):
         for i in range(10):
             id = 'rating'+str(i+1)
             ratings.append(request.POST.get(id))
+        song_rec_new(username, ratings, rec)
+        return redirect('dashboard')
         # rating1 = request.POST.get('rating1')
     print("------", ratings)
     request.session['ratings'] = ratings
 
-    return render(request, "authentication/dashboard.html", {'song_list': song_list, 'track_ids': track_ids})
+
+    return render(request, "authentication/new_recommendation.html", {'song_list': song_list, 'track_ids': track_ids})
 
 
 def signout(request):
@@ -125,6 +132,37 @@ def signout(request):
     messages.success(request, "Logged out successfully.")
     return redirect('home')
 
+def dashboard(request):
+    username = request.session.get('username')
+    song_list = []
+    track_ids = []
+    if request.method == "POST":
+        song_name = request.POST.get('song_name')
+        artist_name = request.POST.get('artist_name')
+        rec = collaborativeFiltering(username, song_name, artist_name)
+        for recid in rec:
+            song_list.append(display_song_rec(recid))
+
+        for track in song_list:
+            song = get_track_id(track[0], track[1])
+            # while song is None:
+            #     song = get_track_id(track[0], track[1])
+
+            track_ids.append(song)
+
+        song_list = json.dumps(song_list)
+        track_ids = json.dumps(track_ids)
+
+        ratings = []
+        if request.method == "POST":
+            for i in range(10):
+                id = 'rating' + str(i + 1)
+                ratings.append(request.POST.get(id))
+            # rating1 = request.POST.get('rating1')
+        print("------", ratings)
+        request.session['ratings'] = ratings
+
+    return render(request, "authentication/dashboard.html", {'song_list': song_list, 'track_ids': track_ids})
 
 
 

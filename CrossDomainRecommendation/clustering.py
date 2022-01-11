@@ -81,3 +81,11 @@ def song_rec(userID, songN, rec_ids):
 
 
 # print(get_similar_users('muskaan06'))
+
+def song_rec_new(userID, ratings, rec_ids):
+    for i, id in enumerate(rec_ids):
+        songN = sql.display_song_rec(id)
+        sql.insert_song_user_rating(userID, songN, ratings[i])
+        song_emo = sql.get_song_emotion(id)
+        sql.update_user_emotion(userID, song_emo, ratings[i])
+
