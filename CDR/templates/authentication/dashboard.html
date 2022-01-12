@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard</title>
+    <title>{{fname}}'s Dashboard</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
@@ -13,8 +13,8 @@
     <h3>Recommended Songs</h3>
     <form id="search" action="/dashboard" method="POST">
         {% csrf_token %}
-        <input type="text" class="song_name" placeholder="Song Name">
-        <input type="text" class="artist_name" placeholder="Artist Name">
+        <input type="text" name="song_name" placeholder="Song Name">
+        <input type="text" name="artist_name" placeholder="Artist Name">
         <button type="submit">Get Recommendations</button>
 
     </form>

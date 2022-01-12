@@ -4,9 +4,6 @@ import numpy as np
 import os
 import sys
 import json
-
-# song = input("song name: ")
-# artist = input("artist: ")
 from . import sql
 
 

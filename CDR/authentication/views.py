@@ -9,11 +9,12 @@ from django.shortcuts import render, redirect
 sys.path.append("..")
 from CrossDomainRecommendation.genre import actual_genres, get_all_genres
 from CrossDomainRecommendation.cf_model import genre_rec, collaborativeFiltering
-from CrossDomainRecommendation.sql import display_song_rec
+from CrossDomainRecommendation.sql import display_song_rec, insert_user_emotion
 from CrossDomainRecommendation.spotify_connect import get_track_id
 from CrossDomainRecommendation.clustering import song_rec_new
 
 # Create your views here.
+
 
 
 def home(request):
@@ -49,6 +50,7 @@ def signup(request):
         myuser.last_name = lname
         # myuser.is_active = False
         myuser.save()
+        insert_user_emotion(username)    #inserted into database
         messages.success(request, "Your account has been created successfully!")
         #  TODO: login user here
         #  ask for 3 fav genre, show song recs w max matching genres, ask rating, build user emo
@@ -71,11 +73,11 @@ def signin(request):
         if user is not None:
             if user.last_login is None:
                 login(request, user)
-                return redirect('select_genres')
+                return redirect('select_genres')        #for first time user
             else:
                 login(request, user)
                 fname = user.first_name
-                return render(request, "authentication/index.html", {'fname': fname})
+                return render(request, "authentication/dashboard.html", {'fname': fname})
         else:
             messages.error(request, "bad credentials!")
             return redirect('home')
@@ -116,10 +118,9 @@ def new_recommendation(request):
     if request.method == "POST":
         for i in range(10):
             id = 'rating'+str(i+1)
-            ratings.append(request.POST.get(id))
-        song_rec_new(username, ratings, rec)
+            ratings.append(int(request.POST.get(id)))
+        song_rec_new(username, ratings, rec)        #inserting into database
         return redirect('dashboard')
-        # rating1 = request.POST.get('rating1')
     print("------", ratings)
     request.session['ratings'] = ratings
 
@@ -139,7 +140,7 @@ def dashboard(request):
     if request.method == "POST":
         song_name = request.POST.get('song_name')
         artist_name = request.POST.get('artist_name')
-        rec = collaborativeFiltering(username, song_name, artist_name)
+        rec = collaborativeFiltering(username, song_name, artist_name, 5)
         for recid in rec:
             song_list.append(display_song_rec(recid))
 
@@ -163,6 +164,7 @@ def dashboard(request):
         request.session['ratings'] = ratings
 
     return render(request, "authentication/dashboard.html", {'song_list': song_list, 'track_ids': track_ids})
+
 
 
 

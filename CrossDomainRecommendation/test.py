@@ -25,6 +25,7 @@ import cf_model
 # TODO:  -testing
 
 # taking user_id input from user
+
 while True:
     userId = input("Enter your user Id: ")
     x = re.search("\W", userId)
@@ -58,7 +59,7 @@ while True:
 while True:
     rating = input("Enter rating 1-10: ")
     rating = int(rating)
-    if 0 < rating <= 10:
+    if 0 <= rating <= 10:
         try:
             sql.insert_song_user_rating(userId, songName, rating)
         except sqlite3.IntegrityError:

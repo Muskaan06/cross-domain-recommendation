@@ -3,15 +3,21 @@ import random
 import numpy as np
 from . import sql
 from . import genre
-#from CrossDomainRecommendation.clustering import get_similar_users
+from CrossDomainRecommendation.clustering import get_similar_users
 from sklearn.cluster import KMeans
 from k_means_constrained import KMeansConstrained
 import math
+from CrossDomainRecommendation.functions import insert_new_song
 
 
-def collaborativeFiltering(user_name, song_name, artist_name):
+def collaborativeFiltering(user_name, song_name, artist_name, rating):
+    song_name = song_name.title()
+    artist_name = artist_name.title()
     song_id_input = sql.get_song_id_input(song_name, artist_name)
     print(song_id_input)
+    if song_id_input == 0:
+        insert_new_song(user_name, song_name, artist_name, rating)
+        song_id_input = sql.get_song_id_input(song_name, artist_name)
     # user_list_common = sql.get_user_list_common(song_id_input)
     user_list_common = get_similar_users(user_name)
     user_list_common.remove(user_name)
@@ -20,10 +26,12 @@ def collaborativeFiltering(user_name, song_name, artist_name):
     # song ids of all songs listened by similar users
     similar_user_songs = sql.get_user_song_matrix(user_list_common)
     similar_user_songs = list(set(similar_user_songs))
-
+    print(similar_user_songs)
     song_emo = []
     for song_id in similar_user_songs:
-        song_emo.append(sql.get_song_emotion(song_id))
+        emo = sql.get_song_emotion(song_id)
+        print(emo)
+        song_emo.append(emo)
 
     # cluster all songs listened by similar users
     data = song_emo
@@ -37,10 +45,12 @@ def collaborativeFiltering(user_name, song_name, artist_name):
     # kmeans = KMeans(n_clusters, random_state=0).fit(data)
     kmeans = KMeansConstrained(n_clusters, size_min=size_min, size_max=size_max, random_state=0)
     data = np.array(data)
+    #print(data)
     kmeans.fit(data)
     emo_list = sql.get_song_emotion(song_id_input)
     print("song emo: ", emo_list)
     emo_array = np.array([emo_list])
+    print(emo_array)
     x = kmeans.predict(emo_array, size_min=None, size_max=None)
 
     pred_clusters = kmeans.labels_
@@ -77,7 +87,7 @@ def collaborativeFiltering(user_name, song_name, artist_name):
     # return suggested_song_id
 
 
-# collaborativeFiltering('amisha', 'yellow', 'coldplay')
+#collaborativeFiltering('sm', 'shivers', 'ed sheeran', 5)
 
 def genre_rec(genres):
     song_genre, song_list = sql.fetch_song_genres()

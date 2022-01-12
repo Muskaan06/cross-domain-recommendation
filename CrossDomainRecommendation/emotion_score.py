@@ -1,15 +1,18 @@
 import nltk
 import pandas as pd
-
 nltk.download('punkt')
 nltk.download('wordnet')
 from nltk import word_tokenize
 from nltk.stem import WordNetLemmatizer
 import sqlite3
+import os
 
 #connecting to our NCR_lexicon database
-connection = sqlite3.connect('lexicon.db')
-
+#connection = sqlite3.connect('lexicon.db')
+path = os.getcwd()
+print(path)
+#connecting to our NCR_lexicon database
+connection = sqlite3.connect(os.path.join(path, "..", "CrossDomainRecommendation", "lexicon.db"))
 crsr = connection.cursor()
 
 sql_command = """SELECT "English (en)", Positive, Negative, Anger, Anticipation, Disgust, Fear, Joy, Sadness, Surprise, Trust

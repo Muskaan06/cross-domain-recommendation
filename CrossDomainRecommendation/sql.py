@@ -26,17 +26,23 @@ with connection:
     def update_user_emotion(user_id, emo_list, rating):
         # denominator for wt. avg
         sql_command2 = """SELECT SUM(rating*play_count) FROM song_user_rating WHERE user_id=%s; """
-        demo = crsr.execute(sql_command2, (user_id,))
+        crsr.execute(sql_command2, (user_id,))
+        demo = crsr.fetchall()
         # emo_user = [0,0,0,0,0,0,0,0,0,0]
         for row1 in demo:
             denom = row1[0]
 
         sql_command1 = """SELECT Positive, Negative, Anger, Anticipation, Disgust, Fear, Joy, Sadness, Surprise, Trust FROM user_emotion WHERE id=%s;"""
-        demo2 = crsr.execute(sql_command1, (user_id,))
+        crsr.execute(sql_command1, (user_id,))
+        demo2 = crsr.fetchall()
         for row2 in demo2:
             emo_user = list(row2)
 
         for i, emo in enumerate(emo_user):
+            print(type(emo))
+            print(type(emo_list[i]))
+            print(type(rating))
+            print(type(denom))
             emo_user[i] = (emo * denom + emo_list[i] * rating) / (denom + rating)
         print("--------------------------")
         # print(emo_user)
@@ -86,14 +92,16 @@ with connection:
 
     def get_song_emotion(song_id):
         sql_command1 = """SELECT Positive, Negative, Anger, Anticipation, Disgust, Fear, Joy, Sadness, Surprise, Trust FROM song_emotion WHERE song_id=%s;"""
-        demo2 = crsr.execute(sql_command1, (song_id,))
+        crsr.execute(sql_command1, (song_id,))
+        demo2 = crsr.fetchall()
         for row2 in demo2:
             return list(row2)
 
 
     def fetch_song_emotion():
         sql_command = """SELECT song_id FROM song_emotion"""
-        demo2 = crsr.execute(sql_command)
+        crsr.execute(sql_command)
+        demo2 = crsr.fetchall()
         song_list = []
 
         for row2 in demo2:
@@ -101,7 +109,8 @@ with connection:
 
         song_emo = []
         sql_command = """SELECT Positive, Negative, Anger, Anticipation, Disgust, Fear, Joy, Sadness, Surprise, Trust FROM song_emotion"""
-        demo2 = crsr.execute(sql_command)
+        crsr.execute(sql_command)
+        demo2 = crsr.fetchall()
         for row2 in demo2:
             song_emo.append(list(row2))
 
@@ -130,7 +139,8 @@ with connection:
 
     def get_song_id(songN):
         sql_command = """SELECT id FROM song_table WHERE song_name=%s;"""
-        abc = crsr.execute(sql_command, (songN,))
+        crsr.execute(sql_command, (songN,))
+        abc = crsr.fetchall()
         songId = 0
         for row in abc:
             songId = row[0]
@@ -139,7 +149,8 @@ with connection:
 
     def get_user_ratings(userID):
         sql_command = """SELECT song_id,rating FROM song_user_rating WHERE user_id=%s;"""
-        abc = crsr.execute(sql_command, (userID,))
+        crsr.execute(sql_command, (userID,))
+        abc = crsr.fetchall()
         user_ratings = []
         for row in abc:
             user_ratings.append(list(row))
@@ -148,14 +159,16 @@ with connection:
 
     def get_user_emotion(userID):
         sql_command1 = """SELECT Positive, Negative, Anger, Anticipation, Disgust, Fear, Joy, Sadness, Surprise, Trust FROM user_emotion WHERE id=%s;"""
-        demo2 = crsr.execute(sql_command1, (userID,))
+        crsr.execute(sql_command1, (userID,))
+        demo2 = crsr.fetchall()
         for row2 in demo2:
             return list(row2)
 
 
     def get_song_id_input(song_name, artist_name):
         sql_command1 = """SELECT id FROM song_table WHERE song_name=%s and artist_name=%s;"""
-        qwe = crsr.execute(sql_command1, (song_name, artist_name,))
+        crsr.execute(sql_command1, (song_name, artist_name,))
+        qwe = crsr.fetchall()
         song_id_input = 0
         for row in qwe:
             song_id_input = row[0]
@@ -164,7 +177,8 @@ with connection:
 
     def get_user_list_common(song_id_input):
         sql_command2 = """SELECT user_id FROM song_user_rating WHERE song_id=%s;"""
-        abc = crsr.execute(sql_command2, (song_id_input,))
+        crsr.execute(sql_command2, (song_id_input,))
+        abc = crsr.fetchall()
         user_list_common = []
         for row in abc:
             user_list_common.append(row[0])
@@ -176,7 +190,8 @@ with connection:
         for users in user_list_common:
 
             sql_command3 = """SELECT song_id from song_user_rating where user_id=%s;"""
-            efg = crsr.execute(sql_command3, (users,))
+            crsr.execute(sql_command3, (users,))
+            efg = crsr.fetchall()
             for row in efg:
                 user_song_matrix.append(row[0])
         return user_song_matrix
@@ -201,7 +216,9 @@ with connection:
 
     def insert_song_user_rating(user_id, songN, rating):
         sql_command = """SELECT id FROM song_table WHERE song_name=%s;"""
-        abc = crsr.execute(sql_command, (songN,))
+        crsr.execute(sql_command, (songN,))
+        abc = crsr.fetchall()
+
         songId = 0
         for row in abc:
             songId = row[0]
@@ -212,12 +229,14 @@ with connection:
 
     def update_song_user_rating(user_id, songN, rating):
         sql_command = """SELECT id FROM song_table WHERE song_name=%s;"""
-        abc = crsr.execute(sql_command, (songN,))
+        crsr.execute(sql_command, (songN,))
+        abc = crsr.fetchall()
         songId = 0
         for row in abc:
             songId = row[0]
         sql_command = """SELECT rating,play_count FROM song_user_rating WHERE user_id=%s AND song_id=%s;"""
-        bcd = crsr.execute(sql_command, (user_id, songId))
+        crsr.execute(sql_command, (user_id, songId))
+        bcd = crsr.fetchall()
         rate = 0
         play_count = 0
         for row2 in bcd:
@@ -249,14 +268,16 @@ with connection:
 
     def display(table_name):
         sql_comm = """SELECT * FROM """ + table_name + ';'
-        cursor = crsr.execute(sql_comm)
+        crsr.execute(sql_comm)
+        cursor = crsr.fetchall()
         for row in cursor:
             print(row)
 
 
     def get_song_table():
         sql_comm = '''SELECT * FROM song_table'''
-        output = crsr.execute(sql_comm)
+        crsr.execute(sql_comm)
+        output = crsr.fetchall()
         return output
 
 
