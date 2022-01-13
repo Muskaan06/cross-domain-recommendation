@@ -6,17 +6,26 @@ from sklearn.cluster import KMeans
 from k_means_constrained import KMeansConstrained
 import random
 
-e = sys.float_info.epsilon
-def fix_rating(rate):
-    return int(math.ceil(rate / 10))
+# e = sys.float_info.epsilon
+# def fix_rating(rate):
+#     return int(math.ceil(rate / 10))
 
-df = pd.read_csv('compressed_merged_file.csv')
+# df = pd.read_csv('compressed_merged_file.csv')
+df = pd.read_csv('comp_dataset.csv')
 df = df.drop('Unnamed: 0', axis=1)
-df['rating'] = df['rating'].replace(255, 0)
+# df['rating'] = df['rating'].replace(255, 0)
+#
+# df['rating'] = df['rating'].apply(fix_rating)
+# df['rating'] = df['rating'] + e
+df = df.sort_values('user_id')
+print(df)
+users = list(range(76, 1948870))
 
-df['rating'] = df['rating'].apply(fix_rating)
-df['rating'] = df['rating'] + e
-dataset = df.loc[df['user_id'].isin(list(range(177, 10000)))]
+test_user_id = [1948869]
+
+user_list = set(users) - set(test_user_id)
+
+dataset = df.loc[df['user_id'].isin(list(user_list))]
 x = len(set(dataset['user_id']))
 
 
@@ -29,16 +38,18 @@ x = len(set(dataset['user_id']))
 #   1. Make test user, take out some highest rated songs to be separated, use other songs to build emotion of that user
 #   2. Given that test user inputs a song, we recommend some of his highest rated songs or not - TESTING.
 
-test_user = df.loc[df['user_id'] == 176]
+test_user = df.loc[df['user_id'] == test_user_id[0]]
 test_user = test_user.sort_values('rating')
 test_user = test_user.reset_index()
 test_user = test_user.drop('index', axis=1)
 
-test_user['rating'] = test_user['rating'].apply(fix_rating)
+# test_user['rating'] = test_user['rating'].apply(fix_rating)
+
 # print(len(test_user))
 # pd.set_option('display.max_rows', test_user.shape[0]+1)
-top_rated = test_user.tail(15)
-test_user = test_user[:-15]
+test_user1 = test_user
+top_rated = test_user.tail(10)
+test_user = test_user[:-10]
 
 # print(test_user)
 # print(top_rated)
@@ -65,6 +76,13 @@ x_user = x_user.reset_index()
 test_emo = list(x_user.iloc[0, 1:])
 # print(test_emo)
 
+artist_emotions = pd.read_csv('artist_emotion.csv')
+
+
+def get_artist_emotion(artist_id):
+    emo_list = list((artist_emotions.loc[artist_emotions['artist_id'] == artist_id]).iloc[0, 1:])
+    return emo_list
+
 
 def collaborativeFiltering(user_emo, artist_id):
     # song_name = song_name.title()
@@ -78,7 +96,7 @@ def collaborativeFiltering(user_emo, artist_id):
 
     user_list_common = get_similar_users(user_emo)
     # user_list_common.remove(user)
-    print("common users: ", user_list_common)
+    # print("common users: ", user_list_common)
 
     # song ids of all songs listened by similar users
     similar_user_artist, similar_user_artist_emotion = fetch_artist_id(user_list_common)
@@ -95,9 +113,9 @@ def collaborativeFiltering(user_emo, artist_id):
     data = similar_user_artist_emotion
     labels = list(similar_user_artist)
     data_len = len(data)
-    print(data_len)
-    print(len(labels))
-    size_min = 50
+    # print(data_len)
+    # print(len(labels))
+    size_min = 60
     size_max = 120
     max_cluster = math.floor(data_len / size_min)
     min_cluster = math.ceil(data_len / size_max)
@@ -111,27 +129,29 @@ def collaborativeFiltering(user_emo, artist_id):
 
     # emo_list = sql.get_song_emotion(song_id_input)
     # print("song emo: ", emo_list)
-    emo_list = list((df.loc[df['artist_id'] == artist_id]).iloc[0, 3:])
+
+    # emo_list = list((df.loc[df['artist_id'] == artist_id]).iloc[0, 3:])
+    emo_list = get_artist_emotion(artist_id)
     emo_array = np.array([emo_list])
     # print(emo_array)
     x = kmeans.predict(emo_array, size_min=None, size_max=None)
 
     pred_clusters = kmeans.labels_
-    print(pred_clusters)
+    # print(pred_clusters)
     cluster_labels = [[] for i in range(n_clusters)]
-    print('cluster labels--------',cluster_labels)
-    print('labels ----',labels)
+    # print('cluster labels--------',cluster_labels)
+    # print('labels ----',labels)
     for i, j in enumerate(pred_clusters):
         cluster_labels[j].append(labels[i])
 
     trained_data = cluster_labels
     # print(trained_data)
     rec_ids = trained_data[x[0]]
-    print("recs---------------------------------------------------------------------------------------------------")
-    print(set(rec_ids))
+    # print("recs---------------------------------------------------------------------------------------------------")
+    # print(set(rec_ids))
     list1=list(set(rec_ids))
-    print("top rated ------------------")
-    print(top_rated['artist_id'])
+    # print("top rated ------------------")
+    # print(top_rated['artist_id'])
     list2 = list(top_rated['artist_id'])
     listf = set(list1) & set(list2)
     print("Common----",listf)
@@ -142,21 +162,21 @@ def fetch_artist_id(user_list):
     similar_user = dataset.loc[df['user_id'].isin(user_list)]
     artist_common = similar_user.drop(['user_id','rating'], axis=1)
     artist_common = artist_common.drop_duplicates()
-    print("arieokjo0900000000000000000000000000000000000------------")
-    print(artist_common)
+    # print("arieokjo0900000000000000000000000000000000000------------")
+    # print(artist_common)
     similar_artist_id = artist_common['artist_id']
 
     similar_artist_emotion = artist_common.iloc[:, 1:]
     similar_artist_emotion = similar_artist_emotion.values.tolist()
     # print("Fetching artist ids for similar users ---")
-    print("len----",len(similar_artist_id))
-    print(len(similar_artist_emotion))
+    # print("len----",len(similar_artist_id))
+    # print(len(similar_artist_emotion))
 
     return similar_artist_id, similar_artist_emotion
 
 
 def fetch_user_emotion():
-    print('fetch user emotion ---------')
+    # print('fetch user emotion ---------')
     x_user = dataset.drop('artist_id', axis=1)
 
     x_user.loc[:, ['Positive', 'Negative', 'Anger', 'Anticipation', 'Disgust', 'Fear', 'Joy', 'Sadness', 'Surprise',
@@ -213,5 +233,14 @@ def get_similar_users(user_emo):
     return rec_ids
 
 
-collaborativeFiltering(test_emo, 1002404)
-# print(dataset.loc[dataset['user_id'] == 176])
+# print(get_artist_emotion(1009001))
+
+UNHEARD_ARTISTS = [1007809, 1003138, 1007142, 1000841, 1007593, 1005963, 1006285, 1004272, 1005297, 1000850,
+1007568, 1003540, 1004153, 1006943]
+
+for artist_id in UNHEARD_ARTISTS:
+    print('artist_id: ', artist_id)
+    collaborativeFiltering(test_emo, artist_id)
+# print(dataset.loc[dataset['user_id'] == 76])
+print(test_user1)
+# print(max(set(dataset['artist_id'])))  # 1009000
