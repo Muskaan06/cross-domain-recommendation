@@ -88,9 +88,8 @@ We have used 5-core and metadata from [Amazon Product Dataset](http://jmcauley.u
 
 ## Testing
 
-  1. Paratmeter tuning: The parameters are item similarity threshold and the manner in which test items are selected from the set of items. The variations  
-  in these parameters are as follows : 
-                                    !(/cross-domain-recommendation/images/parameter_tuning.png)
+  1. Paratmeter tuning: The parameters are item similarity threshold and the manner in which test items are selected from the set of items. The variations   in these parameters are as follows : 
+                                  ![Image](/images/parameter_tuning.png)
   2. Manner of Testing :
   
     Using the parameters defined above, we perform testing to obtain results which we use to draw conclusions regarding the efficacy of our model. Testing 
